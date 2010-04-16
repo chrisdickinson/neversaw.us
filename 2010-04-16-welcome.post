@@ -21,9 +21,3 @@ tagging it with YAML metadata, and pushing it to the server. In theory everythin
 
 The current name for the processor (such as it is) is ``Heartburn``.
 @===
-header:
-    title: wooo
-    caption: yeahhh
-@---
-This is pretty great! Lol.
-@===
