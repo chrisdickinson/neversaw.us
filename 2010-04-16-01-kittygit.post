@@ -8,6 +8,13 @@ header:
 She's pretty awesome, except for the whole "loves to walk over my computer when I'm coding"
 thing. But that's okay. She's probably just pretending to be a high-tech surfboarder, or something.  
 
-She's okay I guess. Probably the reason I named a gitosis replacement after a cat. Anyway.
+She's okay I guess. Probably the reason I named a gitosis replacement after a cat. Anyway. The idea,
+I guess, is to enable things like the following workflow from the command line:
 @===
-
+code_lang:bash
+@---
+kittygit create-repo test
+kittygit adduser newuser
+cat public_key | kittygit addkey newuser
+kittygit grant newuser kittygit::read::chris/test
+@===
