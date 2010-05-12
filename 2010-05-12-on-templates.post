@@ -35,7 +35,7 @@ doesn't really restrict the template designer at all inside it's templates -- he
 drop down to straight PHP if need be. I'd venture to say that while this is an attempt to solve
 100% of the problem of writing templates, it's a really bad solution.
 
-For one, PHP itself is a great templating language -- that's what it was pretty much written
+For one, PHP itself is a templating language -- that's what it was pretty much written
 to be. Adding a syntactic layer on top of PHP is just going to confuse things. (Disclaimer:
 I spent about a year and a half writing Smarty templates for a large-ish PHP promotional
 products company, so the pains of Smarty are fairly well known to me). The fact that pretty much
