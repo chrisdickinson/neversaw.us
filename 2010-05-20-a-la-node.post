@@ -50,7 +50,7 @@ building on OSX 10.6, and the following steps may contain some things specific t
 @===
 header:
     title: Aim low, sweet chariot
-    caption: Comin' for to java me hooome
+    caption: Comin for to java me hooome
 @---
 First thing's first. We need to make sure we can actually compile a C++ plugin for node,
 and call it from javascript. It's not too hard. Node's build process uses `waf`, for which
@@ -342,7 +342,7 @@ That's pretty much the C++ side of things. The new `Import` function calls `RETU
 load up.
 @===
 header:
-    title: ObjectWrap'ing up
+    title: ObjectWrapping up
     caption: yeah, that pun was lame
 @---
 Hopefully that wasn't too scattershot to follow. At this point, if you compiled it, you could import python modules,
