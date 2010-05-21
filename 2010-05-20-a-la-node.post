@@ -354,5 +354,5 @@ probably has the exact same things against it. Embedding a python process doesn'
 and it's made even worse by the fact that V8 garbage collects only at certain points. I would certainly avoid using
 it in a production setting at the moment. I'm currently leaning towards connecting to a UWSGI socket through Node.js,
 and I have a project that follows that format on (github)[http://github.com/chrisdickinson/node-uwsgi]. At the very
-least, hopefully this opens up the possibility of writing C++ plugins to node to more developers. 
+least, hopefully this opens up the possibility of writing C++ plugins to node to more developers.  
 @===
