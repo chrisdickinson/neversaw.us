@@ -5,7 +5,7 @@ header:
     title: Py A La Node.
     caption: Or, "Watch where you stick that Python!" 
 @---
-Have you heard about (Node.js)[http://nodejs.org]? It's pretty awesome. Evented IO for
+Have you heard about [Node.js](http://nodejs.org)? It's pretty awesome. Evented IO for
 servers! All of the promise of erlang, with a syntax that you *probably already know*.
 But, you know, it'd be really nice if I could take my various django applications with
 me when I leave on this coffee-themed rapture. Bonus points if I can take all of the
@@ -39,10 +39,10 @@ hood at V8.
 Let's get started by building a really simple plugin for node.js in C++ using the V8 engine.
 You know what was really handy when figuring this stuff out? Links to documentation.
 
-1. (The DOxygen docs were really helpful, believe it or not)[http://bespin.cz/~ondras/html/annotated.html]
-2. (The Google V8 Embedder's guide is also pretty cool)[http://code.google.com/apis/v8/embed.html] 
-3. (Grab the Node.js source code)[http://github.com/ry/node.git]
-3. (ry's node_postgres is also very instructive.)[http://github.com/ry/node_postgres.git]
+1. [The DOxygen docs were really helpful, believe it or not](http://bespin.cz/~ondras/html/annotated.html)
+2. [The Google V8 Embedder's guide is also pretty cool](http://code.google.com/apis/v8/embed.html) 
+3. [Grab the Node.js source code](http://github.com/ry/node.git)
+3. [ry's node_postgres is also very instructive.](http://github.com/ry/node_postgres.git)
 
 This is pretty much the extent of the documentation I was able to find. Keep in mind I'm
 building on OSX 10.6, and the following steps may contain some things specific to OSX building.
@@ -257,7 +257,7 @@ be controlled so we can attempt to load up `PyObject*` children of the current `
     };       
 
 That leaves us to define `Import`, `ToStringAccessor`, `Call`, `Get`, and `Set`. I'll be referring to snippets from
-(the node-python)[http://github.com/chrisdickinson/node-python] repository from this point forward, as we're about to
+[the node-python](http://github.com/chrisdickinson/node-python) repository from this point forward, as we're about to
 start getting a little heady, file-size wise. Importantly, we've introduced a class: `PyObjectWrapper`, which inherits
 from `ObjectWrap` -- a utility class that Node.js provides to deal with garbage collection of C++ classes. 
 
@@ -353,6 +353,6 @@ My experience with this binding is as follows: it is analogous to a `mod_python`
 probably has the exact same things against it. Embedding a python process doesn't let you predict the memory usage,
 and it's made even worse by the fact that V8 garbage collects only at certain points. I would certainly avoid using
 it in a production setting at the moment. I'm currently leaning towards connecting to a UWSGI socket through Node.js,
-and I have a project that follows that format on (github)[http://github.com/chrisdickinson/node-uwsgi]. At the very
+and I have a project that follows that format on [github](http://github.com/chrisdickinson/node-uwsgi). At the very
 least, hopefully this opens up the possibility of writing C++ plugins to node to more developers.  
 @===
