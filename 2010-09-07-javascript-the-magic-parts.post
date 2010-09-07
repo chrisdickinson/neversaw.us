@@ -10,10 +10,10 @@ If there were a real world equivalent of the "Spinning Newspaper with Headline" 
 so often seen in films, Javascript's meteoric rise to fame would involve headlines like
 the following:
 
-*. Javascript! Not Just for Browsers Anymore!
-*. After Reading Crockford's "The Good Parts", the President Resigns and Installs Node.js as Interim President
-*. JS Is Callback Soup, Declares Conservative Pundit 
-*. Is the Honeymoon Over? Javascript's Uncanny Resemblence to the Elephant Man
+1. Javascript! Not Just for Browsers Anymore!
+2. After Reading Crockford's "The Good Parts", the President Resigns and Installs Node.js as Interim President
+3. JS Is Callback Soup, Declares Conservative Pundit 
+4. Is the Honeymoon Over? Javascript's Uncanny Resemblence to the Elephant Man
 
 Which is to say, there's a lot of hyperbole on both sides. What irks me in particular
 is that on both sides, there's a fair amount of misunderstanding of the language in
