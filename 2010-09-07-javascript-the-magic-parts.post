@@ -266,13 +266,6 @@ header:
     title: Wield the Magic Parts like a Wizard
     caption: Mess up the Baelrog of code soup something fierce
 @---
-One thing that I've noted is that for many, writing Javascript is tantamount to writing jQuery. While I think jQuery is 
-best-in-class at what it sets out to do -- DOM Manipulation -- it doesn't really teach you any Javascript. 
-It feels a lot like PHP -- a lot of the harder parts of Javascript are abstracted away and made easy to deal with, at 
-the expense of not knowing what's really going on. **It encourages you to juggle chainsaws by telling you that they are bowling pins.** 
-Without knowing how Javascript works, it's hard to structure your program in such a way that doesn't fall into the 
-trap of callback soup -- and harder yet to avoid depending too much on external DOM state.
-
 One thing that is absolutely key to working in Javascript is understanding this philosophy:
 
 > If a function blocks in any way -- by spinning a hard drive, by making a request, by pausing to observe a butterfly, it has to take a callback.
@@ -282,10 +275,18 @@ when that function receives data. This is a big source of where "callback soup" 
 method will have to provide callbacks two or more levels deep to get any meaningful work done. This can be avoided by 
 abstracting the callbacks away through proper framework design. By understanding and using the two magic parts above, 
 it becomes much, much easier to structure your Javascript program to avoid callback soup. 
+
+An aside: I've noted that for many, writing Javascript is tantamount to writing jQuery. While I think jQuery is 
+best-in-class at what it sets out to do -- DOM Manipulation -- it doesn't really teach you any Javascript. 
+It feels a lot like PHP -- a lot of the harder parts of Javascript are abstracted away and made easy to deal with, at 
+the expense of not knowing what's really going on. **It encourages you to juggle chainsaws by telling you that they are bowling pins.** 
+Without knowing how Javascript works, it's hard to structure your program in such a way that doesn't fall into the 
+trap of callback soup -- and harder yet to avoid depending too much on external DOM state. Code written for jQuery
+should not be taken to represent Javascript at large.
 @===
 header:
     title: Abstracting Away Callback Soup
-    caption: Controlling callbacks with a central object
+    caption: 
 @---
 Just as a quick postscript -- here is one potential way to abstract away callback soup. Our goal is to process a 
 request/response cycle without requiring more than one callback per middleware function. Without further ado, the Request object:
