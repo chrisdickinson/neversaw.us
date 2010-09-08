@@ -180,7 +180,7 @@ But what's really going on is a little bit more complicated, and actually ends u
     gary_busey2 = Actor()
     gary_busey3 = Actor()
     gary_busey3.message = "TEEEETH"
-    Actor.mesage = "Act a fool"
+    Actor.message = "Act a fool"
 
     gary_busey.say_something()  # "Act a fool"
     gary_busey2.say_something() # "Act a fool"
