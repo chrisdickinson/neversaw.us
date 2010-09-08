@@ -213,12 +213,12 @@ So in Javascript, objects work in almost exactly the same way!
     busey1.saySomething()       // 'Act a fool'
     busey2.saySomething()       // 'TEETH'
 
-So it works the same way as Python in this case. It's important to note that when an object instance looks up a property on it's
+So it works the same way as Python in this case. It's important to note that when an object instance looks up a property on its
 prototype, it pretends that property was found on the object instance itself -- hence `saySomething`'s `this` is set to 
 whatever actor instance invoked that method.
 
 Prototypes can be chained, as well, to provide subclassing. There's another piece of weirdness here, too -- to get prototype 
-chaining to work, the object you are trying to subclass must be instantiated so that it has it's prototype set. 
+chaining to work, the object you are trying to subclass must be instantiated so that it has its prototype set. 
 Oof -- that's a mouthful. Let's take a look:
 
     var a = new Actor();    // returns an Object with its prototype and constructor properties set.
