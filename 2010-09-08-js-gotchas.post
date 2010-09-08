@@ -5,7 +5,7 @@ header:
     title: Javascript and Node.js
     caption: Gotchas 
 @--- 
-(Yesterday)[http://neversaw.us/2010/9/7/javascript-the-magic-parts/] I wrote a post about the
+[Yesterday](http://neversaw.us/2010/9/7/javascript-the-magic-parts/) I wrote a post about the
 two parts of Javascript that I considered magical. I wrote it in the hopes that newcomers to the
 language would be able to grasp the two hardest parts by comparing it to languages they were
 already familiar with (PHP, Python). Unfortunately I took a bit of an exasperated tone in that
@@ -104,7 +104,7 @@ object literal, the code won't even compile.
 So, when you can -- and if you're writing for Node.js, you often can -- try to limit yourself down to the subset
 of Javascript that V8 supports. If you can't do that -- well, you really have to be cognizant of the fact that you're
 no longer writing modern Javascript, you *have* to target the lowest common denominator. To really appreciate how
-weird ECMAScript can be in practice, read through (this pdf)[http://wiki.ecmascript.org/lib/exe/fetch.php?id=resources%3Aresources&cache=cache&media=resources:jscriptdeviationsfromes3.pdf].
+weird ECMAScript can be in practice, read through [this pdf](http://wiki.ecmascript.org/lib/exe/fetch.php?id=resources%3Aresources&cache=cache&media=resources:jscriptdeviationsfromes3.pdf).
 It's a Microsoft-compiled list of divergences from ECMAScript 3 across the major browsers (unfortunately, excluding
 Chrome).
 @===
