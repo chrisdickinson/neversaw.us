@@ -111,7 +111,7 @@ It's encouraged that you refer to other files within your package by their fully
     // not this
     var libraries = require('./libraries');
 
-It's a lot easier to keep track of what's going on, and it encorages you to expose your library files using `index.js` -- "We're all consenting adults here" (thanks Python).
+It's a lot easier to keep track of what's going on, and it encourages you to expose your library files using `index.js` -- "We're all consenting adults here" (thanks Python).
 
 When it comes to testing, you should pick your poison. [Vows.js](http://vowsjs.org/) is particularly popular at the moment, and if that doesn't float your boat, you can always use the plain-jane `assert` module -- `var assert = require('assert')` -- and write your tests that way. The important thing is that they're there.
 
