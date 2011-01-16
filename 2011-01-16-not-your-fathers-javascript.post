@@ -115,7 +115,7 @@ It's a lot easier to keep track of what's going on, and it encourages you to exp
 
 When it comes to testing, you should pick your poison. [Vows.js](http://vowsjs.org/) is particularly popular at the moment, and if that doesn't float your boat, you can always use the plain-jane `assert` module -- `var assert = require('assert')` -- and write your tests that way. The important thing is that they're there.
 
-There hasn't been much in the way of consensus vis-a-vis how to create your docs, but I'd suggest using Sphinx (yes, even though it's python) since you get free hosting by way of [Read the docs](http://readthedocs.org/). Again, even if it's just text files, it's nice for it to be there.
+There hasn't been much in the way of consensus vis-a-vis how to create your docs, but I'd suggest using Sphinx (yes, even though it's Python) since you get free hosting by way of [Read the docs](http://readthedocs.org/). Again, even if it's just text files, it's nice for it to be there.
 @===
 header:
     title: Iterating 
