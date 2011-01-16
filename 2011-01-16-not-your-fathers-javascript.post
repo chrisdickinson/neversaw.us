@@ -8,22 +8,22 @@ header:
 JavaScript has a reputation; while said reputation has vastly improved over the last year or because of the introduction of Node.js, it's still not 
 as sterling as it ought to be.
 
-Once you leap the various hurdles -- the automatic binding of `this` and the way the prototype system works being the two major ones, you feel ready
+Once you leap the various hurdles &mdash; the automatic binding of `this` and the way the prototype system works being the two major ones, you feel ready
 to sit down and write some neat JavaScript. Only there's a bit of a problem (especially coming from the golden fields of Python-land): best practices
-aren't easy to come by. Since there are so many ways of skinning a cat -- all equally valid -- often newcomers settle for the tried-and-true, but still
-verbose-and-fragile ways of attacking problems. This is exacerbated by the huge amount of technical writing about JavaScript on the internet -- most of
+aren't easy to come by. Since there are so many ways of skinning a cat &mdash; all equally valid &mdash; often newcomers settle for the tried-and-true, but still
+verbose-and-fragile ways of attacking problems. This is exacerbated by the huge amount of technical writing about JavaScript on the internet &mdash; most of
 it is about the DOM, some of it attempts to apply to all implementations of JavaScript, and, if you're writing for a Node.js project,
 *very little of it applies to what you are trying to do*.
 
 So, I'm going to attempt to introduce some better approaches to writing JavaScript for recent engines; with a focus on best practices for Node.js. These
-sections will cover an individual pain point, from low-level to higher-level problems, and may not be entirely limited to Node.js -- I'll note when they
+sections will cover an individual pain point, from low-level to higher-level problems, and may not be entirely limited to Node.js &mdash; I'll note when they
 can be safely applied (or how one can use them) in other environments.
 @===
 header:
     title: The Basics
     caption: Bare minimums of style
 @---
-A quick aside, first -- there is, generally, a style emerging across Node.js packages; I'll keep this as quick as possible:
+A quick aside, first &mdash; there is, generally, a style emerging across Node.js packages; I'll keep this as quick as possible:
 
 *  Variable declarations should be grouped at the top of their containing function.
 *  Two space tabs.
@@ -111,9 +111,9 @@ It's encouraged that you refer to other files within your package by their fully
     // not this
     var libraries = require('./libraries');
 
-It's a lot easier to keep track of what's going on, and it encourages you to expose your library files using `index.js` -- "We're all consenting adults here" (thanks Python).
+It's a lot easier to keep track of what's going on, and it encourages you to expose your library files using `index.js` &mdash; "We're all consenting adults here" (thanks Python).
 
-When it comes to testing, you should pick your poison. [Vows.js](http://vowsjs.org/) is particularly popular at the moment, and if that doesn't float your boat, you can always use the plain-jane `assert` module -- `var assert = require('assert')` -- and write your tests that way. The important thing is that they're there.
+When it comes to testing, you should pick your poison. [Vows.js](http://vowsjs.org/) is particularly popular at the moment, and if that doesn't float your boat, you can always use the plain-jane `assert` module &mdash; `var assert = require('assert')` &mdash; and write your tests that way. The important thing is that they're there.
 
 There hasn't been much in the way of consensus vis-a-vis how to create your docs, but I'd suggest using Sphinx (yes, even though it's Python) since you get free hosting by way of [Read the docs](http://readthedocs.org/). Again, even if it's just text files, it's nice for it to be there.
 @===
@@ -126,7 +126,7 @@ Iteration in JavaScript comes baked into the language in two forms:
     for(var key in obj) {}
     for(var i = 0; i < len; ++i) {}
 
-These are workable approaches to iteration -- they have their place, certainly, and no one should feel bad about using them. However, there are ways
+These are workable approaches to iteration &mdash; they have their place, certainly, and no one should feel bad about using them. However, there are ways
 to write the above that feel a little less verbose, and perhaps a little less brittle. JavaScript provides a lot of methods for traversing arrays, let's
 take a quick look:
 
@@ -145,7 +145,7 @@ take a quick look:
     // which can be further boiled down to this:
     arr.forEach(doSomething);
 
-It should feel a little cleaner -- if you want (or need) to move your loop logic someplace else where it can, perhaps, be reused, `Array.prototype.forEach`
+It should feel a little cleaner &mdash; if you want (or need) to move your loop logic someplace else where it can, perhaps, be reused, `Array.prototype.forEach`
 is awesome for that. Here's another advantage:
 
     // so we write this in one place:
@@ -209,9 +209,9 @@ But while we're at it, let's use another Array builtin to really simplify this:
 
 `Array.prototype.map` returns a new Array with the result of the callback applied to each element. Another cool thing is that since it returns an array, we can simply chain a call to the result's `forEach` method to execute each item. In the second example, we boil this down even further, by using `Function.prototype.bind`, which is immensely powerful (and yet somehow, often ignored)!
 
-The other iteration members of the `Array` family are available for perusal [on the MDC Array page here](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Iteration_methods). The only method not supported by V8 is `reduceRight` -- and in general, IE does not support any of them.
+The other iteration members of the `Array` family are available for perusal [on the MDC Array page here](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Iteration_methods). The only method not supported by V8 is `reduceRight` &mdash; and in general, IE does not support any of them.
 
-The downside of these iteration functions is that they do not support any analogue of the `break` statement. There is one way to stop mid-array, and that is to throw an error and catch it outside of your `forEach` statement -- not exactly the best way to go about it!
+The downside of these iteration functions is that they do not support any analogue of the `break` statement. There is one way to stop mid-array, and that is to throw an error and catch it outside of your `forEach` statement &mdash; not exactly the best way to go about it!
 
 However, whenever possible, using these methods should be preferred: They're more terse, lend themselves well to reusing logic, and perhaps most importantly, custom objects can support these methods (unlike the builtin looping).
 @===
@@ -252,10 +252,10 @@ start with `key_`:
     }.bind(toObject));
 
 Since `Object.keys` returns an `Array` object, we can use the filter method to select only the keys that match the regex. To provide our
-regex, we use `re.test.bind(re)` -- that returns the `RegExp.prototype.test` function bound to `re`. Three lines and we've got a nice way
+regex, we use `re.test.bind(re)` &mdash; that returns the `RegExp.prototype.test` function bound to `re`. Three lines and we've got a nice way
 to filter properties while copying!
 
-Object.keys is not supported in IE6 or 7 -- you can provide it by shoving in your own:
+Object.keys is not supported in IE6 or 7 &mdash; you can provide it by shoving in your own:
 
     Object.keys = Object.keys ||
       (function(obj) {
@@ -267,16 +267,16 @@ Object.keys is not supported in IE6 or 7 -- you can provide it by shoving in you
 The keys property will not show up in other `for(var key in obj)` since it is attached to the Object directly, and not through it's prototype. 
 @===
 header:
-    title: Bind like Qing Dynasty Feet 
-    caption: Early and often
+    title: Binding is Great 
+    caption: Try not to be afraid of commitment 
 @---
-`Function.prototype.bind` is wonderful -- just wonderful. You may have noticed that I've been sprinkling in a bit of usage in the previous examples;
+`Function.prototype.bind` is wonderful &mdash; just wonderful. You may have noticed that I've been sprinkling in a bit of usage in the previous examples;
 that's because I want you to love it as much as I do. It has exceptional power when it comes to making callback-ridden code more readable. Here's
 the absolute basics of what it does: 
 
     something.bind(<context>, <curriedArg0>, <curriedArg1>, <curriedArgN...>); // -> returns a function whose `this` variable is set to `context`.
 
-A bound function never loses its context object -- you could rebind it to another object, but that would be silly -- the inner context object always
+A bound function never loses its context object &mdash; you could rebind it to another object, but that would be silly &mdash; the inner context object always
 wins. One nice thing, though, is the ability to curry arguments into the function. 
 
     var add = function(lhs, rhs) {
@@ -286,7 +286,7 @@ wins. One nice thing, though, is the ability to curry arguments into the functio
     var add2 = add.bind({}, 2);     // we set the context to an empty object because we don't really care about it.
     add2(5);                        // returns 7.
 
-Yes, yes, currying is nothing new -- but in the context of Node.js, where you're constantly writing functions taking callbacks and callbacks taking
+Yes, yes, currying is nothing new &mdash; but in the context of Node.js, where you're constantly writing functions taking callbacks and callbacks taking
 yet other callbacks, and generally nesting more than the top ten most endangered birds of North America, this ability is priceless.
 
 Before we delve too deep, too greedily, like some function-binding crazed dwarves of Moria, let's address a common, simple problem that plagues
@@ -308,8 +308,8 @@ most folk just getting used to JavaScript:
     b = new Book();
     b.getJSON();        // oh no this doesn't work what fools we are
 
-Losing `this` -- it's a common problem. `this` inside the above callbacks is not the same as the `this` that `Book.prototype.getJSON` started with.
-There are workarounds -- assigning `var self = this` and addressing everything as self afterwards -- or alternatively executing a function immediately
+Losing `this` &mdash; it's a common problem. `this` inside the above callbacks is not the same as the `this` that `Book.prototype.getJSON` started with.
+There are workarounds &mdash; assigning `var self = this` and addressing everything as self afterwards &mdash; or alternatively executing a function immediately
 that takes a value of `book`, providing it `this` initially:
 
     (function(book) {
@@ -328,7 +328,7 @@ Let's rewrite it using bind.
     };
 
 Just by adding `}.bind(this)` at the bottom of each function, we've preserved the value of `this` throughout each function! Nice! So `bind` solves
-one of the major problems inherent in JavaScript -- the `this` variable.
+one of the major problems inherent in JavaScript &mdash; the `this` variable.
 
 But we can do better! Let's see if it can do anything about the callback soup, above:
 
@@ -357,9 +357,11 @@ You can take this further. Let's take a look at an example node.js server functi
 
 Oof. Nesting, repeated logic (`if(err) response.end()`), and all we want to do, eventually, is write the template response to the response object. We can do better. Let's put on our binding hats:
 
-    var endOnError = function() {
-        if(arguments[1]) this.end();
-        arguments[0](arguments[2]);
+    var endOnError = function(continue, err, data) {
+        if(err) 
+          this.end();
+        else
+          continue(data);
     };
 
     function(request, response) {
@@ -370,7 +372,7 @@ Oof. Nesting, repeated logic (`if(err) response.end()`), and all we want to do, 
                         response.write.bind(response)))));
     };
 
-The nesting is still evident, but you can read it like a flow of instructions. Read the file, end if there's an error, otherwise render the template, if there's an error here we should end, too, and finally we write the data to the response. It starts to look a little bit like LISP -- which can be a good or bad thing, depending on your point of view.
+The nesting is still evident, but you can read it like a flow of instructions. Read the file, end if there's an error, otherwise render the template, if there's an error here we should end, too, and finally we write the data to the response. It starts to look a little bit like LISP &mdash; which can be a good or bad thing, depending on your point of view.
 
 The takeaway, here, is that you can wield `bind` to cut down on code repetition, keep track of that nasty `this` variable, and mow through nested callbacks like so many summer lawns. It can start to look like a different kind of soup if it's overused, so of course, be careful. It's best used in cases where you are redirecting events from one location to another:
 
@@ -399,8 +401,8 @@ header:
 @---
 So as you can see, there are a lot of bits in the JavaScript standard library that really smooth out kinks in the language.
 
-It should also be noted that these aren't immediately obvious -- you have to do a lot of delving through other's code on github to
-see these things in practice. The problem is that the old ways (while old and janky) still work -- and there's a lot of verbiage on the
+It should also be noted that these aren't immediately obvious &mdash; you have to do a lot of delving through other's code on github to
+see these things in practice. The problem is that the old ways (while old and janky) still work &mdash; and there's a lot of verbiage on the
 internet dedicated to describing them. Finding the new, better ways is hard to do. Once you find them, though, you never want to give
 them up.
 
