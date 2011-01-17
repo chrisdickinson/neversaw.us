@@ -297,18 +297,18 @@ most folk just getting used to JavaScript:
       this.authorURL = '/cormac-mccarthy/';
     };
 
-    Book.prototype.getJSON = function() {
+    Book.prototype.loadLibraryData = function() {
       $.getJSON(this.bookURL, function(bookData) {
         $.getJSON(this.authorURL, function(authorData) {
-          doSomething(bookData, authorData);
+          buildBookAndAuthor(bookData, authorData);
         });
       });
     };
 
     b = new Book();
-    b.getJSON();        // oh no this doesn't work what fools we are
+    b.loadLibraryData();        // oh no this doesn't work what fools we are
 
-Losing `this` &mdash; it's a common problem. `this` inside the above callbacks is not the same as the `this` that `Book.prototype.getJSON` started with.
+Losing `this` &mdash; it's a common problem. `this` inside the above callbacks is not the same as the `this` that `Book.prototype.getLibraryData` started with.
 There are workarounds &mdash; assigning `var self = this` and addressing everything as self afterwards &mdash; or alternatively executing a function immediately
 that takes a value of `book`, providing it `this` initially:
 
@@ -319,10 +319,10 @@ that takes a value of `book`, providing it `this` initially:
 
 Let's rewrite it using bind.
 
-    Book.prototype.getJSON = function() {
+    Book.prototype.loadLibraryData = function() {
       $.getJSON(this.bookURL, function(bookData) {
         $.getJSON(this.authorURL, function(authorData) {
-          doSomething(bookData, authorData);
+          buildBookAndAuthor(bookData, authorData);
         }.bind(this));
       }.bind(this));
     };
@@ -332,16 +332,16 @@ one of the major problems inherent in JavaScript &mdash; the `this` variable.
 
 But we can do better! Let's see if it can do anything about the callback soup, above:
 
-    Book.prototype.getJSON = function() {
+    Book.prototype.loadLibraryData = function() {
       var curry = function(url, callback) {
         $.getJSON(url, callback.bind(this, arguments[2]));
       };
 
       $.getJSON(this.bookURL, 
-        curry.bind(this, this.authorURL, doSomething)); 
+        curry.bind(this, this.authorURL, buildBookAndAuthor)); 
     };
 
-We took out that nest quicker than rampant deforestation. What did we do? We created a helper function that would push received data into the target callback as it became available. That way, when we called `$.getJSON` for the book data, it bound `doSomething`  to `doSomething(authorData, ...)`, and when the second callback came back, it completed our merry journey. As a bonus, it brought the `this` context from the originating context (`Book.prototype.getJSON`) into our `doSomething` function. Wow! Powerful stuff, man.
+We took out that nest quicker than rampant deforestation. What did we do? We created a helper function that would push received data into the target callback as it became available. That way, when we called `$.getJSON` for the book data, it bound `buildBookAndAuthor`  to `buildBookAndAuthor(authorData, ...)`, and when the second callback came back, it completed our merry journey. As a bonus, it brought the `this` context from the originating context (`Book.prototype.getLibraryData`) into our `buildBookAndAuthor` function. Wow! Powerful stuff, man.
 
 You can take this further. Let's take a look at an example node.js server function:
 
