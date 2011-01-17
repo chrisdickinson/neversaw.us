@@ -1,8 +1,8 @@
-title: Not Your Fathers Javascript 
+title: "Not Your Father's Javascript" 
 published: Jan 16, 2011
 summary: Writing Javascript for V8 
 header:
-    title: Not Your Fathers Javascript
+    title: "Not Your Father's Javascript"
     caption: How to use V8 to write cleaner JS 
 @---
 JavaScript has a reputation; while said reputation has vastly improved over the last year or because of the introduction of Node.js, it's still not 
