@@ -24,6 +24,7 @@ jobs:
         run: |
           bin/zola build --output-dir output
       - name: upload the blog
+        run: |
           cd output
           aws s3 cp . s3://www.neversaw.us/ --recursive --acl public-read
         env:
