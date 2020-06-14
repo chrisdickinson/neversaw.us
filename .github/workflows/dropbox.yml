@@ -1,10 +1,32 @@
 name: "Receive dropbox events"
 on:
   repository_dispatch:
+  push:
+    branches: [latest]
 jobs:
   receive_dropbox_event:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "hello world"
-
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            bin/zola
+          key: bin/zola
+      - name: download zola
+        run: |
+          bin/install.sh
+      - name: download dropbox blog
+        run: |
+          bin/download_folder.sh ${{ secrets.DROPBOX_KEY }}
+          mv blog/* content
+      - name: 'build the blog, BE THE BLOG'
+        run: |
+          bin/zola build --output-dir output
+      - name: upload the blog
+          cd output
+          aws s3 cp . s3://www.neversaw.us/ --recursive --acl public-read
+        env:
+          AWS_SECRET_ACCESS_KEY: ${{ github.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ github.AWS_ACCESS_KEY_ID }}
+          AWS_DEFAULT_REGION: us-west-2
