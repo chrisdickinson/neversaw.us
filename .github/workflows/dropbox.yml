@@ -1,0 +1,10 @@
+name: "Receive dropbox events"
+on:
+  repository_dispatch:
+jobs:
+  receive_dropbox_event:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "hello world"
+
