@@ -17,53 +17,68 @@
 
       {% block css %}
           <link rel="stylesheet" href="{{ get_url(path="site.css", trailing_slash=false) | safe }}">
+          <script type="text/javascript" src="//use.typekit.net/hae5bpn.js"></script>
+          <style type="text/css">.tk-nimbus-sans,article,article p,time{font-family:"nimbus-sans",sans-serif;}.tk-nimbus-sans-condensed,h1,h2,h3,h4,h5{font-family:"nimbus-sans-condensed",sans-serif;}</style><style type="text/css">@font-face{font-family:nimbus-sans;src:url(https://use.typekit.net/af/da0c19/00000000000000000001518d/27/l?subset_id=2&fvd=n4&v=3) format("woff2"),url(https://use.typekit.net/af/da0c19/00000000000000000001518d/27/d?subset_id=2&fvd=n4&v=3) format("woff"),url(https://use.typekit.net/af/da0c19/00000000000000000001518d/27/a?subset_id=2&fvd=n4&v=3) format("opentype");font-weight:400;font-style:normal;}@font-face{font-family:nimbus-sans;src:url(https://use.typekit.net/af/7ba522/00000000000000000001011f/27/l?subset_id=2&fvd=i4&v=3) format("woff2"),url(https://use.typekit.net/af/7ba522/00000000000000000001011f/27/d?subset_id=2&fvd=i4&v=3) format("woff"),url(https://use.typekit.net/af/7ba522/00000000000000000001011f/27/a?subset_id=2&fvd=i4&v=3) format("opentype");font-weight:400;font-style:italic;}@font-face{font-family:nimbus-sans;src:url(https://use.typekit.net/af/360cf4/000000000000000000012544/27/l?subset_id=2&fvd=n7&v=3) format("woff2"),url(https://use.typekit.net/af/360cf4/000000000000000000012544/27/d?subset_id=2&fvd=n7&v=3) format("woff"),url(https://use.typekit.net/af/360cf4/000000000000000000012544/27/a?subset_id=2&fvd=n7&v=3) format("opentype");font-weight:700;font-style:normal;}@font-face{font-family:nimbus-sans;src:url(https://use.typekit.net/af/a44ffc/000000000000000000010121/27/l?subset_id=2&fvd=i7&v=3) format("woff2"),url(https://use.typekit.net/af/a44ffc/000000000000000000010121/27/d?subset_id=2&fvd=i7&v=3) format("woff"),url(https://use.typekit.net/af/a44ffc/000000000000000000010121/27/a?subset_id=2&fvd=i7&v=3) format("opentype");font-weight:700;font-style:italic;}@font-face{font-family:nimbus-sans-condensed;src:url(https://use.typekit.net/af/6039b0/000000000000000000010124/27/l?subset_id=2&fvd=n4&v=3) format("woff2"),url(https://use.typekit.net/af/6039b0/000000000000000000010124/27/d?subset_id=2&fvd=n4&v=3) format("woff"),url(https://use.typekit.net/af/6039b0/000000000000000000010124/27/a?subset_id=2&fvd=n4&v=3) format("opentype");font-weight:400;font-style:normal;}@font-face{font-family:nimbus-sans-condensed;src:url(https://use.typekit.net/af/96b6c1/000000000000000000010125/27/l?subset_id=2&fvd=n7&v=3) format("woff2"),url(https://use.typekit.net/af/96b6c1/000000000000000000010125/27/d?subset_id=2&fvd=n7&v=3) format("woff"),url(https://use.typekit.net/af/96b6c1/000000000000000000010125/27/a?subset_id=2&fvd=n7&v=3) format("opentype");font-weight:700;font-style:normal;}</style><script type="text/javascript">try{Typekit.load();}catch(e){}</script>
       {% endblock css %}
 
       {% block extra_head %}
       {% endblock extra_head %}
     </head>
 
-    <body class="hack dark main container">
+    <body id="" class="hack dark main container">
+        <header>
+          <h1 id="logo"><a href="/" rel="top">NeverSawUs</a></h1>
+        </header>
+        <div id="target"></div>
+
         {% block content %}
             {% block header %}
-                {% if config.extra.after_dark_menu %}
-                    <header>
-                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
-                        {% for item in config.extra.after_dark_menu %}
-                            <a itemprop="url"
-                               class="{% if item.url | replace(from="$BASE_URL", to=config.base_url) == current_url %}active{% endif %}"
-                               href="{{ item.url | safe | replace(from="$BASE_URL", to=config.base_url) }}">
-                                <span itemprop="name">{{ item.name }}
-                                </span></a>
-                        {% endfor %}
-                        </nav>
-                    </header>
-                {% endif %}
             {% endblock header %}
 
-            <main>
-                {% if config.extra.after_dark_title %}
-                    <header>
-                        <h1>{{ config.extra.after_dark_title }}</h1>
-                    </header>
-                {% endif %}
+            <main id="content">
+                <nav class="wrap">
+                  <p>
+                    {% if paginator.previous %}
+                      <a rel="prev" href="{{ paginator.previous }}">&laquo; Previous</a> |
+                    {% endif %}
+                    <aside>Page {{ paginator.current_index }} of {{ paginator.number_pagers }}</aside>
+                    {% if paginator.next %}
+                      <a rel="next" href="{{ paginator.next }}">Next &raquo;</a>
+                    {% endif %}
+                  </p>
+                </nav>
+
+                <ul class="post-list">
                 {% for page in paginator.pages %}
                     {{ post_macros::page_in_list(page=page) }}
                 {% endfor %}
+                </ul>
 
-                <nav>
+                <nav class="wrap">
                   <p>
                     {% if paginator.previous %}
-                      <a href="{{ paginator.previous }}">&laquo; Previous</a> |
+                      <a rel="prev" href="{{ paginator.previous }}">&laquo; Previous</a> |
                     {% endif %}
-                    <span>Page {{ paginator.current_index }} of {{ paginator.number_pagers }}</span>
+                    <aside>Page {{ paginator.current_index }} of {{ paginator.number_pagers }}</aside>
                     {% if paginator.next %}
-                      | <a href="{{ paginator.next }}">Next &raquo;</a>
+                      | <a rel="next" href="{{ paginator.next }}">Next &raquo;</a>
                     {% endif %}
                   </p>
                 </nav>
             </main>
         {% endblock content %}
+
+        <footer>
+            <div>
+                <h4><a href="/">NEVERSAW.US</a> is Chris Dickinson’s personal blog</h4>
+                <p>
+                  <a href="/feed.xml" rel="rss">RSS</a>
+                  <a href="https://twitter.com/isntitvacant" rel="twitter">@isntitvacant</a>
+                  <a href="https://github.com/chrisdickinson" rel="github">github.com/chrisdickinson</a>
+                  <a href="https://npmjs.com/~chrisdickinson" rel="npm">npm</a>
+                </p>
+            </div>
+        </footer>
     </body>
 
 </html>

@@ -16,18 +16,11 @@
 {% endmacro meta %}
 
 {% macro page_in_list(page) %}
-    <article itemscope itemtype="http://schema.org/CreativeWork">
-        <header>
-            <h2 itemprop="name">
-                <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
-            </h2>
-            <span class="muted">{{ self::meta(page=page) }}</span>
-        </header>
-        {% if page.summary %}
-            <div itemprop="summary">
-                {{ page.summary | safe }}
-                <nav class="readmore"><a itemprop="url" href="{{ page.permalink | safe }}">Read More&nbsp;&raquo;</a></nav>
-            </div>
+    <li>
+        <h1><a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a></h1>
+
+        {% if page.date %}
+        <time datetime="{{ page.date | date(format="%F")}}">{{ page.date | date(format="%F")}}</time>
         {% endif %}
-    </article>
+    </li>
 {% endmacro page_in_list %}
