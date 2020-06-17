@@ -9,16 +9,18 @@
         <nav class="wrap">
           <p>
             {% if page.earlier %}
-              <a rel="prev" href="{{ page.earlier.permalink }}">Previous</a> |
+              <a rel="prev" href="{{ page.earlier.permalink }}">Previous</a>
             {% endif %}
             {% if page.updated %}<aside>{{ page.updated }}</aside>{% endif %}
             {% if page.later %}
-              <a rel="next" href="{{ page.later.permalink }}">Next</a> |
+              <a rel="next" href="{{ page.later.permalink }}">Next</a>
             {% endif %}
           </p>
         </nav>
         <section class="wrap">
-          {{ page.content | safe }}
+          <article>
+            {{ page.content | safe }}
+          </article>
         </section>
     </main>
 {% endblock content %}

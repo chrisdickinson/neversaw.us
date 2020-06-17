@@ -33,11 +33,12 @@ footer:before {
 }
 
 footer a { color:white; }
-footer { text-align: center; }
+footer { text-align: center; margin-top: 3em; }
 
 footer > div { width:672px; margin:0pt auto; }
 
-body { text-align:center; color:#636566; }
+body { text-align:center; color:#636566; display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1; }
 .wrap { margin: 16pt auto; width: 672px; text-align:left; }
 
 a { color:#353835; text-decoration:none; border-bottom: 1px solid #999; padding-bottom:0.0166em; }
