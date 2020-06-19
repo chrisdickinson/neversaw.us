@@ -20,6 +20,7 @@ jobs:
         run: |
           bin/download_folder.sh ${{ secrets.DROPBOX_KEY }}
           mv blog/* content
+          mv static/* static
       - name: 'build the blog, BE THE BLOG'
         run: |
           bin/zola build --output-dir output
