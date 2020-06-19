@@ -11,7 +11,10 @@
             {% if page.earlier %}
               <a rel="prev" href="{{ page.earlier.permalink }}">Previous</a>
             {% endif %}
-            {% if page.updated %}<aside>{{ page.updated }}</aside>{% endif %}
+            <aside>
+              {{ page.reading_time }} minute read
+              {% if page.updated %} | {{ page.updated }}{% endif %}
+            </aside>
             {% if page.later %}
               <a rel="next" href="{{ page.later.permalink }}">Next</a>
             {% endif %}
