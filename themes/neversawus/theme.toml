@@ -3,7 +3,6 @@ description = "A theme"
 license = "MIT"
 homepage = "https://example.com"
 min_version = "0.11.0"
-
 [extra]
 
 [author]
