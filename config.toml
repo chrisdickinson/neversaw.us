@@ -14,5 +14,8 @@ build_search_index = true
 
 theme = "neversawus"
 
+[slugify]
+paths = "off"
+
 [extra]
 # Put all your custom variables here
