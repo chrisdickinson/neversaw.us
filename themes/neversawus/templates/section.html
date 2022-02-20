@@ -1,5 +1,7 @@
 {% extends "index.html" %}
 
+{% block title %}{{ super() }}{% if page.title %} | {{ page.title }}{% endif %}{% endblock %}
+
 {% block content %}
     {% block header %}
         {{ super() }}

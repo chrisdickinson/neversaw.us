@@ -1,6 +1,27 @@
 {% extends "index.html" %}
 {% import "post_macros.html" as post_macros %}
 
+{% block title %}{% if page.title %}{{ page.title }} - {% endif %}{{ super() }}{% endblock %}
+
+{% block extra_head %}
+  <meta name="description" content="{{ page.description|default(value=page.summary) }}">
+
+  <meta itemprop="name" content="{{ page.title }} - Chris Dickinson">
+  <meta itemprop="description" content="{{ page.description|default(value=page.summary) }}">
+  <meta itemprop="image" content="{{ config.base_url|safe }}/static/previews{{ page.path|safe }}preview.png">
+
+  <meta property="og:url" content="{{ page.permalink|safe }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page.title }} - Chris Dickinson">
+  <meta property="og:description" content="{{ page.description|default(value=page.summary) }}">
+  <meta property="og:image" content="{{ config.base_url|safe }}/static/previews{{ page.path|safe }}preview.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title }} - Chris Dickinson">
+  <meta name="twitter:description" content="{{ page.description|default(value=page.summary) }}">
+  <meta name="twitter:image" content="{{ config.base_url|safe }}/static/previews{{ page.path|safe }}preview.png">
+{% endblock %}
+
 {% block content %}
     {% block header %}
         {{ super() }}
