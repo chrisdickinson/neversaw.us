@@ -3,6 +3,9 @@ on:
   repository_dispatch:
   push:
     branches: [latest]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 jobs:
   receive_dropbox_event:
     runs-on: ubuntu-latest
@@ -32,3 +35,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_DEFAULT_REGION: us-west-2
+      - name: purge cache
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
+          -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
+          -H "Content-Type: application/json" \
+          --data '{"purge_everything":true}'
+        env:
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
