@@ -1,6 +1,7 @@
 name: "Receive dropbox events"
 on:
   repository_dispatch:
+  workflow_dispatch:
   push:
     branches: [latest]
 concurrency:
