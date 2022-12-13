@@ -20,11 +20,25 @@ jobs:
       - name: download zola
         run: |
           bin/install.sh
+
+      - name: download likelike
+        run: |
+          gh release download --repo chrisdickinson/likelike -p '*x64_ubuntu*'
+          <likelike*.tar.gz | tar zxv -C /usr/local/bin
+          mkdir -p ~/.local/share
+
       - name: download dropbox blog
         run: |
           bin/download_folder.sh ${{ secrets.DROPBOX_KEY }}
+          mv blog/likelike.sqlite3 ~/.local/share/
           mv blog/static/* static
           mv blog/* content
+
+      - name: run likelike export
+        run: |
+          mkdir -p content/links
+          likelike export content/links
+
       - name: 'build the blog, BE THE BLOG'
         run: |
           bin/zola build --output-dir output

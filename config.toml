@@ -11,6 +11,10 @@ title = "Chris Dickinson"
 
 theme = "neversawus"
 
+taxonomies = [
+    { name = "tags", feed = true},
+]
+
 [slugify]
 paths = "off"
 

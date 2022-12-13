@@ -7,7 +7,11 @@
         {{ super() }}
     {% endblock header %}
 
-    <h1>Categories</h1>
+    <ul class="post-list">
+    {% for page in paginator.pages %}
+        {{ post_macros::page_in_list(page=page) }}
+    {% endfor %}
+    </ul>
 
     {% if terms %}
         <ul>
