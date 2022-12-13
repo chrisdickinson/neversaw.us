@@ -23,14 +23,16 @@ jobs:
 
       - name: download likelike
         run: |
-          gh release download --repo chrisdickinson/likelike -p '*x64_ubuntu*'
-          <likelike*.tar.gz | tar zxv -C /usr/local/bin
+          gh release download --repo chrisdickinson/likelike -p '*x64_linux*'
+          <likelike*.tar.gz tar zxv -C /usr/local/bin
           mkdir -p ~/.local/share
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: download dropbox blog
         run: |
           bin/download_folder.sh ${{ secrets.DROPBOX_KEY }}
-          mv blog/likelike.sqlite3 ~/.local/share/
+          mv blog/likelike.sqlite3 ~/.local/share/ || true
           mv blog/static/* static
           mv blog/* content
 
