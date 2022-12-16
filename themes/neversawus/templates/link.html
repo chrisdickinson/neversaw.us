@@ -1,0 +1,82 @@
+{% extends "index.html" %}
+{% import "post_macros.html" as post_macros %}
+
+{% block title %}{% if page.title %}{{ page.title }} - {% endif %}{{ super() }}{% endblock %}
+
+{% block extra_head %}
+  <meta name="description" content="{{ page.description|default(value=page.summary) }}">
+
+  <meta itemprop="name" content="{{ page.title }} - Chris Dickinson">
+  <meta itemprop="description" content="{{ page.description|default(value=page.summary) }}">
+  <meta itemprop="image" content="{{ config.base_url|safe }}/static/previews{{ page.path|safe }}preview.png">
+
+  <meta property="og:url" content="{{ page.permalink|safe }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page.title }} - Chris Dickinson">
+  <meta property="og:description" content="{{ page.description|default(value=page.summary) }}">
+  <meta property="og:image" content="{{ config.base_url|safe }}/static/previews{{ page.path|safe }}preview.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title }} - Chris Dickinson">
+  <meta name="twitter:description" content="{{ page.description|default(value=page.summary) }}">
+  <meta name="twitter:image" content="{{ config.base_url|safe }}/static/previews{{ page.path|safe }}preview.png">
+{% endblock %}
+
+{% block content %}
+    {% block header %}
+        {{ super() }}
+    {% endblock header %}
+    <main id="content">
+        <nav class="wrap">
+          <p>
+            <a rel="prev" href="/links">Links</a>
+            <aside>
+              {% if page.extra.read_at %} | Read at {{ page.extra.read_at }}{% endif %}
+              {% if page.extra.found_at %} | Found at {{ page.extra.found_at }}{% endif %}
+
+              {% if page.extra.via %}
+                {% if page.extra.via.type == "Link" %}
+                  | <a href="{{ page.extra.via.content }}">Via.</a>
+                {% elif page.extra.via.type == "Friend" %}
+                  | Via {{ page.extra.via.content }}.
+                {% endif %}
+              {% endif %}
+            </aside>
+          </p>
+        </nav>
+        <section class="wrap">
+          <hgroup>
+            {% if page.extra.url.host|default(value="") == "www.youtube.com" %}
+            <h4>Watching&hellip;</h4>
+            {% else %}
+            <h4>Reading&hellip;</h4>
+            {% endif %}
+            <h1><a href="{{ page.extra.url.url|default(value="") }}" title="{{ page.extra.title|default(value = page.title) }}">{{ page.extra.title|default(value = page.title) }}</a></h1>
+          </hgroup>
+
+          {% if page.extra.url.host|default(value="") == "www.youtube.com" %}
+            {% set id=page.extra.url.query.v %}
+            {% set playlist=page.extra.url.query.list|default(value="") %}
+            <iframe width="100%" height="400px" src="https://www.youtube-nocookie.com/embed/{{id}}{% if playlist %}?list={{playlist}}{% endif %}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          {% elif page.extra.image and page.extra.image is starting_with("http") %}
+            <a href="{{ page.extra.url.url|default(value="") }}" title="{{ page.extra.title|default(value = page.title) }}">
+              <img width="100%" src="{{ page.extra.image }}" alt="{{ page.extra.title|default(value = page.title) }}" />
+            </a>
+          {% endif %}
+
+          <article>
+            {{ page.content | safe }}
+          </article>
+
+          <small class="tags">
+            <strong>Tags:</strong>
+            {% for tag in page.taxonomies.tags|default(value=[]) %}
+            {% if tag %}
+            <a href="/tags/{{ tag | slugify }}" title="tag: {{ tag }}">#{{ tag }}</a>
+            {% endif %}
+            {% endfor %}
+          </small>
+        </section>
+    </main>
+{% endblock content %}
+

@@ -7,7 +7,7 @@
         {{ super() }}
     {% endblock header %}
 
-    <ul class="post-list">
+    <ul class="post-list wrap">
     {% for page in paginator.pages %}
         {{ post_macros::page_in_list(page=page) }}
     {% endfor %}
