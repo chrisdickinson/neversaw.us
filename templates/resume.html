@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chris Dickinson | Resume</title>
+</head>
+{% set data = load_data(path="@/meta/resume.yaml") %}
+
+<body class="w-100 athelas sans-serif">
+  <main class="ph3 ph5-ns">
+    <article class="pb4">
+      <h1 id="chris-dickinson" class="tc">Chris Dickinson</h1>
+      <ul class="pa0 flex justify-center items-center">
+        <li class="dib pr2 br b--black-20 mr2"><a class="link dim dark-blue" href="mailto:chris@neversaw.us">chris@neversaw.us</a></li>
+        <li class="dib pr2 br b--black-20 mr2">1-316-250-1880</li>
+        <li class="dib pr2 br b--black-20 mr2">GitHub: <a class="link dim dark-blue" href="https://github.com/chrisdickinson">chrisdickinson</a></li>
+        <li class="dib"><a class="link dim dark-blue" href="https://www.neversaw.us/">https://www.neversaw.us/</a></li>
+      </ul>
+
+
+      <section>
+        <h1 id="experience" class="mb0 tc">Experience</h1>
+
+        {% for job in data.jobs %}
+          <h2>
+            {{ job.title }} @ <em>{{ job.company }}</em>
+
+            {% if not job.description %}
+            <small>from {{ job.duration.start }} to {{ job.duration.end|default(value="present") }}</small>
+            {% endif %}
+          </h2>
+
+          {% if job.description %}
+            <p>from {{ job.duration.start }} to {{ job.duration.end|default(value="present") }}</p>
+            <div>{{ job.description|markdown(inline=true)|safe }}</div>
+          {% endif %}
+        {% endfor %}
+      </section>
+    </article>
+  </main>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+---
+jobs:
+  - company: Seaplane, Inc
+    title: Engineer
+    duration:
+      start: Jun 2022
+      end: Apr 2023
+    description: |
+      I worked with a small team to define & build a compute product,
+      understand & implement security boundaries (including networking), and
+      speed up shipping iterations. Got a crash course on networking. Built an
+      on-line management system for Nomad using Rust. Additionally: built
+      internal development environment tools to unblock multiple teams. These
+      tools formed the basis for the CI system. Used multiple cloud providers
+      during the course of this work: Hetzner, GCP, NetActuate, AWS, Azure,
+      through a combination of in-house and external tools (e.g., Terraform,
+      Pulumi.)
+
+      I approached each task with a laser focus on automation in the aim of
+      maximizing return on effort, while validating the results of my work with
+      peers.
+
+  - company: Eaze Solutions, LLC
+    title: Principal Engineer
+    duration:
+      start: Apr 2018
+      end: May 2022
+    description: |
+      Replaced the deployment system at Eaze. This cut monthly infrastructure cost in
+      half, took deploy time down from an hour to two minutes, improved morale across
+      teams by reducing contention on shared environments, and allowed us to scale
+      the department by decoupling teams from one another.
+
+      I worked to validate that new deploy system with our fellow engineers:
+      answering questions, incorporating their feedback, and making sure the
+      project was a success by extending ownership over the end result to the
+      entire team. [1]
+
+      Additionally, I worked on platform tools to ensure a base level of
+      capabilities across our services, ensuring all teams had access to quality
+      monitoring, logging, and observability. As teams began adopting TypeScript, I
+      ported JavaScript internal tools for their use. 
+
+      Finally, I worked to give the team porting our monolithic C# application
+      tools to validate their changes. This involved coordinating a 30 person team
+      in the construction of a series of high level integration tests across
+      multiple areas of software engineering (mobile eng, website engineering, &
+      backend engineering.) I gave a presentation on the results to Honeycomb. [2]
+
+      [1]: https://www.neversaw.us/2020/12/19/deploying-at-eaze/
+      [2]: https://www.neversaw.us/presentations/20220426-to-honeycomb.pdf
+
+  - company: npm, Inc.
+    title: Staff Engineer
+    duration:
+      start: Jul 2015
+      end: Apr 2018
+    description: |
+      Kept the npm registry running as it scaled from 400 million to 9 billion
+      downloads a week between 2015 and 2018.
+
+      Worked primarily as a high level individual contributor, responsible for
+      writing the ACL system, publish flow, static asset (package.json and tarball)
+      serving, billing system, and React-based website. Coordinated team efforts as a
+      project manager when needed, and acted as an engineering manager.
+
+      I successfully shipped major migrations of the billing system, the content
+      delivery network (To Cloudflare Edge Workers from Fastly VCL), the ACL system,
+      and the package publication flow. I assisted in infrastructure work,
+      provisioning servers using Terraform and AWS and building deploy tooling in
+      Node and Ansible. I participated in on-call rotation using Pagerduty and was
+      relied upon to fix operational problems when both on- and off-call.
+
+  - company: Walmart Labs
+    title: Member of Node.js Technical Steering Committee
+    duration:
+      start: Jun 2014
+      end: Jun 2015
+    description: |
+      Participated on the io.js Technical Committee, Node.js Technical Committee, and
+      the Node.js Technical Steering Committee. Coordinated early efforts to add
+      promises to core, added history support to the Node REPL, and helped define
+      the initial charter system for working groups. Continued on in my role on the
+      TSC until mid-2017.
+
+  - company: Urban Airship
+    title: Senior Engineer
+    duration:
+      start: Mar 2012
+      end: May 2014
+    description: |
+      Defined standards and testing practices for frontend JavaScript; developed a
+      dashboard for push notification (& html-based "rich push") authoring. Grew a
+      team of JavaScript developers from 1 to 5; evangelized JS use through the
+      company.
+
+  - company: Mediaphormedia
+    title: Web Developer
+    duration:
+      start: '2010'
+      end: Feb 2012
+
+  - company: Domain51
+    title: Web Developer
+    duration:
+      start: '2009'
+      end: '2010'
+
+  - company: Absorbent, Inc.
+    title: Junior Developer
+    duration:
+      start: '2008'
+      end: '2009'
