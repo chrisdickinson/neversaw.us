@@ -32,6 +32,15 @@ footer:before {
     top:-16px;
 }
 
+sup { top: -0.65em; font-size: 60%; line-height: 0; position: relative; vertical-align: baseline; }
+sup a:before { content: '['; }
+sup a:after { content: ']'; }
+
+.footnote-definition-label { font-size: 100%; margin-top: 0.5em; position: initial; display: inline; }
+.footnote-definition-label:before { content: '['; }
+.footnote-definition-label:after { content: ']:'; }
+.footnote-definition-label + p { display: inline; }
+
 footer a { color:white; }
 footer { text-align: center; margin-top: 3em; }
 
