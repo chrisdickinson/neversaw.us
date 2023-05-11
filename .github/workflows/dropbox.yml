@@ -44,6 +44,7 @@ jobs:
       - name: 'build the blog, BE THE BLOG'
         run: |
           bin/zola build --output-dir output
+
       - name: upload the blog
         run: |
           cd output
@@ -52,6 +53,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_DEFAULT_REGION: us-west-2
+
       - name: purge cache
         run: |
           curl -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
