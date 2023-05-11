@@ -10,10 +10,13 @@ build_search_index = true
 title = "Chris Dickinson"
 
 theme = "neversawus"
+feed_filename = "rss.xml"
 
 taxonomies = [
     { name = "tags", feed = true},
 ]
+
+generate_feed = true
 
 [slugify]
 paths = "off"
