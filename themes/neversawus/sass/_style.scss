@@ -134,7 +134,7 @@ pre .comment { color:#AFAEAF; }
 pre .string { color:#C85364; }
 pre .number { color:#C85364; }
 
-p, li, blockquote { font-size: 1.2em; font-weight:lighter; -webkit-font-smoothing: antialiased; }
+p, article>ol>li, article>ul>li, aside>ul>li, article>blockquote { font-size: 1.2em; font-weight:lighter; -webkit-font-smoothing: antialiased; }
 
 em { font-style: italic; }
 strong { font-weight: bold; }
@@ -143,12 +143,16 @@ strong { font-weight: bold; }
 .post-list li { position:relative; list-style:none; padding-left:0; }
 .post-list li time { font-style:italic; font-family:georgia; margin-top: 0;}
 .post-list { margin-bottom: 3.333em; }
-aside { float:right; display: inline-block;  width:450px; position:relative; margin: 1em; margin-right:-6.666em; background: white; padding: 0.666em; font-style: italic;}
-aside.left { float:left; margin-right:1em; margin-left: -6.666em; }
 
-blockquote { margin:1em 0; padding:0 0.66666em; font-style:italic; position: relative; }
-blockquote:before { content:"\201C"; display: inline; position: absolute; left: -0.3em; font-size:4em; color: #CCC; }
+article>blockquote { margin:1em 0; padding:0 0.66666em; font-style:italic; position: relative; }
+article>blockquote:before { content:"\201C"; display: inline; position: absolute; left: -0.3em; font-size:4em; color: #CCC; }
 body blockquote p { font-family:"Georgia"; } 
+
+
+aside { float:right; display: inline-block;  width:450px; position:relative; margin: 1em; margin-right:-6.666em; background: white; padding: 0.666em; }
+aside.left { float:left; margin-right:1em; margin-left: -6.666em; }
+aside>blockquote { margin:1em 0; padding:0 0.66666em; position: relative; }
+aside>blockquote:before { content:"\201C"; display: inline; position: absolute; left: -0.3em; font-size:4em; color: #CCC; }
 
 footer a:hover { color: #999; }
 footer p a { -webkit-font-smoothing: subpixel-antialiased; border:none; color:#646464; }
@@ -157,6 +161,8 @@ footer p a + a { padding-left:24px; }
 footer p { text-align:center; margin-top:1em; margin-bottom:2em; }
 
 article { margin-bottom: 33px; }
+
+.clearfix { clear: both }
 
 p code { white-space:nowrap; }
 p + p { margin-top:1em; }
