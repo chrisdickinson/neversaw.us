@@ -823,7 +823,7 @@ continually updated across a massive distribution network.
 [c-not-created-as-abstract-machine]: https://utcc.utoronto.ca/~cks/space/blog/programming/CAsAbstractMachine
 [design-smalltalk]: https://www.cs.virginia.edu/~evans/cs655/readings/smalltalk.html
 [early-history]: http://worrydream.com/EarlyHistoryOfSmalltalk/
-[first-post]: @/20230505-understanding-wasm-pt-1.md
+[first-post]: /2023/05/10/understanding-wasm/part1/virtualization/
 [grail-interface]: https://www.youtube.com/watch?v=LLRy4Ao62ls
 [hype-cycle]: https://en.wikipedia.org/wiki/Gartner_hype_cycle
 [hypercard-video]: https://archive.org/details/CC501_hypercard
