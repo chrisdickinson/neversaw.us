@@ -400,7 +400,7 @@ Hypercard stacks were confined to a single computer. They couldn't link across
 machines. Still, HyperCard was distributed with every Macintosh, giving it a
 built-in audience (albeit one tied to the popularity of the Mac.)
 
-#### ¡OLE! Forget Teaching -- Let's Sell Some Software
+#### OLE: Forget Teaching -- Let's Sell Some Software
 
 Microsoft, on the other hand, pushed a "supermarket" approach to software
 distribution. You could purchase your computer hardware from compatible
