@@ -1,6 +1,6 @@
 +++
 title = "understanding wasm pt 2: a problem statement"
-slug = "drafts/understanding-wasm-pt-2"
+slug = "understanding-wasm-pt-2"
 date = 2023-05-06
 updated = 2023-05-06
 
@@ -519,8 +519,7 @@ Most websites were static at this point: HTTP dovetailed nicely with the
 hierarchical filesystem metaphor popularized by UNIX in the preceding decade.
 The static nature of the web was changing rapidly, however: NeXT Computer,
 Microsoft, and Sun Microsystems were all invested in dynamically
-generating HTML documents on request. Alice would be able to run Bob's
-software, but only on Bob's computer.
+generating HTML documents on request.
 
 Microsoft, in particular, was not happy that an "open" standard stood to eat
 into the profits they saw from selling software and software creation
@@ -606,7 +605,7 @@ to prominence: Flash.
 
 ### The Aughts
 
-#### The Mobile Era, The Rise and Fall of Flash; Can Alice really trust Bob?
+#### The Mobile Era, The Rise and Fall of Flash
 
 The 00's saw a great changing of the guard: Sun Microsystems went defunct,
 Microsoft faltered while Apple dominated. Amazon and Google rose to prominence.
