@@ -1,4 +1,71 @@
 ---
+education: East Asian Languages and Cultures (B.A.) — University of Kansas 2009
+
+contact:
+  - |
+    [chris@neversaw.us](mailto:chris@neversaw.us)
+  - |
+    316-250-1880
+  - |
+    <svg class="dib h1 w1 pr0" style="position: relative; top:0.125em" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C3.58 0 0 3.582 0 8c0 3.535 2.292 6.533 5.47 7.59.4.075.547-.172.547-.385 0-.19-.007-.693-.01-1.36-2.226.483-2.695-1.073-2.695-1.073-.364-.924-.89-1.17-.89-1.17-.725-.496.056-.486.056-.486.803.056 1.225.824 1.225.824.714 1.223 1.873.87 2.33.665.072-.517.278-.87.507-1.07-1.777-.2-3.644-.888-3.644-3.953 0-.873.31-1.587.823-2.147-.083-.202-.358-1.015.077-2.117 0 0 .672-.215 2.2.82.638-.178 1.323-.266 2.003-.27.68.004 1.364.092 2.003.27 1.527-1.035 2.198-.82 2.198-.82.437 1.102.163 1.915.08 2.117.513.56.823 1.274.823 2.147 0 3.073-1.87 3.75-3.653 3.947.287.246.543.735.543 1.48 0 1.07-.01 1.933-.01 2.195 0 .215.144.463.55.385C13.71 14.53 16 11.534 16 8c0-4.418-3.582-8-8-8"/></svg>
+    [chrisdickinson](https://github.com/chrisdickinson)
+  - |
+    <svg class="dib h1 w1 pr0" style="position: relative; top:0.125em" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M13.632 13.635h-2.37V9.922c0-.886-.018-2.025-1.234-2.025-1.235 0-1.424.964-1.424 1.96v3.778h-2.37V6H8.51V7.04h.03c.318-.6 1.092-1.233 2.247-1.233 2.4 0 2.845 1.58 2.845 3.637v4.188zM3.558 4.955c-.762 0-1.376-.617-1.376-1.377 0-.758.614-1.375 1.376-1.375.76 0 1.376.617 1.376 1.375 0 .76-.617 1.377-1.376 1.377zm1.188 8.68H2.37V6h2.376v7.635zM14.816 0H1.18C.528 0 0 .516 0 1.153v13.694C0 15.484.528 16 1.18 16h13.635c.652 0 1.185-.516 1.185-1.153V1.153C16 .516 15.467 0 14.815 0z" fill-rule="nonzero"/></svg>
+    [christophersdickinson](https://www.linkedin.com/in/christophersdickinson/)
+  - |
+    [https://www.neversaw.us/](https://www.neversaw.us)
+
+about_me: |
+  I'm a software engineer with $NYEARS years of experience. I've shipped software across
+  a variety of contexts: from newsrooms and local radio stations to the biggest
+  software package registry in the world and the open source project behind the most
+  popular serverside JavaScript platform.
+
+  I believe that a well-aligned, high-trust team with a clear vision can
+  accomplish amazing things. I help build that environment wherever I work. I
+  love to teach, to learn, and to work with teams to build tools and frameworks
+  that reflect their technical values.
+
+skills:
+  - Rust
+  - JavaScript:
+    - TypeScript
+    - Node
+    - React
+    - Next
+  - Bash
+  - Site Reliability Engineering
+  - OpenTelemetry & observability
+  - OLTP databases:
+    - Postgres
+    - Aurora
+    - MySql
+    - Sqlite
+  - KV Databases:
+    - AWS Dynamo
+    - Redis
+    - CouchDB
+  - Change Data Capture
+  - Cloud infrastructure:
+    - AWS
+    - GCP
+    - Azure
+    - Hetzner
+    - NetActuate
+  - Illustration & graphic design
+  - Refactoring large legacy applications
+  - Docker
+  - LXC
+  - Kubernetes
+  - Terraform
+  - Nomad
+  - Consul
+  - Functions as a service:
+    - Cloudflare workers
+    - AWS Lambda
+  - Python
+    - Django
+
 jobs:
   - company: Seaplane, Inc
     title: Engineer
@@ -27,25 +94,28 @@ jobs:
       end: May 2022
     description: |
       Replaced the deployment system at Eaze. This cut monthly infrastructure cost in
-      half, took deploy time down from an hour to two minutes, improved morale across
+      half, took the average service deploy time down from one hour to two minutes, improved morale across
       teams by reducing contention on shared environments, and allowed us to scale
       the department by decoupling teams from one another.
 
-      I worked to validate that new deploy system with our fellow engineers:
-      answering questions, incorporating their feedback, and making sure the
-      project was a success by extending ownership over the end result to the
-      entire team. [1]
+      I endeavoured to ensure that, beyond being a technical improvement, the system
+      would be adopted by engineering successfully: I validated the new deployment systems across
+      teams, making sure to incorporate their feedback so that they could see
+      their values reflected in the tool. Further, I made sure all engineers
+      felt ownership over the tool by working with them to make changes to it.
+      See ["Deploying at Eaze"][1] for more.
 
-      Additionally, I worked on platform tools to ensure a base level of
+      Additionally, I built platform tools to ensure a base level of
       capabilities across our services, ensuring all teams had access to quality
       monitoring, logging, and observability. As teams began adopting TypeScript, I
       ported JavaScript internal tools for their use. 
 
       Finally, I worked to give the team porting our monolithic C# application
-      tools to validate their changes. This involved coordinating a 30 person team
-      in the construction of a series of high level integration tests across
-      multiple areas of software engineering (mobile eng, website engineering, &
-      backend engineering.) I gave a presentation on the results to Honeycomb. [2]
+      tools to validate their changes. This involved coordinating a 30 person
+      team in the construction of a series of high level integration tests
+      across multiple areas of software engineering (mobile eng, website
+      engineering, & backend engineering.) I gave a [well-received][2]
+      presentation on the results to Honeycomb.
 
       [1]: https://www.neversaw.us/2020/12/19/deploying-at-eaze/
       [2]: https://www.neversaw.us/presentations/20220426-to-honeycomb.pdf
@@ -60,39 +130,48 @@ jobs:
       downloads a week between 2015 and 2018.
 
       Worked primarily as a high level individual contributor, responsible for
-      writing the ACL system, publish flow, static asset (package.json and tarball)
-      serving, billing system, and React-based website. Coordinated team efforts as a
-      project manager when needed, and acted as an engineering manager.
+      development on the ACL system, publish flow, static asset serving
+      (package.json and tarball), billing system, and React-based website.
+      Coordinated team efforts as a project manager and acted as an engineering
+      manager as needed.
 
       I successfully shipped major migrations of the billing system, the content
       delivery network (To Cloudflare Edge Workers from Fastly VCL), the ACL system,
-      and the package publication flow. I assisted in infrastructure work,
+      the website, and the package publication flow. I assisted in infrastructure work,
       provisioning servers using Terraform and AWS and building deploy tooling in
       Node and Ansible. I participated in on-call rotation using Pagerduty and was
-      relied upon to fix operational problems when both on- and off-call.
+      relied upon to fix operational problems when both on- and off-call and was the primary
+      responsible individual for multiple high-profile on-call incidents.
 
   - company: Walmart Labs
-    title: Member of Node.js Technical Steering Committee
+    title: Node.js Technical Steering Committee
     duration:
       start: Jun 2014
       end: Jun 2015
     description: |
-      Participated on the io.js Technical Committee, Node.js Technical Committee, and
-      the Node.js Technical Steering Committee. Coordinated early efforts to add
-      promises to core, added history support to the Node REPL, and helped define
-      the initial charter system for working groups. Continued on in my role on the
-      TSC until mid-2017.
+      Walmart representative on the open source io.js Technical Committee,
+      Node.js Technical Committee, and the Node.js Technical Steering
+      Committee, run through the Node Foundation. 
 
-  - company: Urban Airship
+      Focused on optimizing JavaScript for the V8 engine, building partial evaluators
+      for pre-TypeScript ecosystem static analysis, and the streams subsystem.
+
+      Coordinated early efforts to
+      add promises to core, added history support to the Node REPL, and helped
+      define the initial charter system for working groups. Continued on in my
+      role on the TSC until mid-2017.
+
+
+  - company: Airship
     title: Senior Engineer
     duration:
       start: Mar 2012
       end: May 2014
     description: |
-      Defined standards and testing practices for frontend JavaScript; developed a
-      dashboard for push notification (& html-based "rich push") authoring. Grew a
-      team of JavaScript developers from 1 to 5; evangelized JS use through the
-      company.
+      Defined standards and testing practices for frontend JavaScript;
+      developed a dashboard for push notification (& html-based "rich push")
+      authoring. Built a five-person team of JavaScript developers through
+      hiring and cross-training; evangelized JS use through the company.
 
   - company: Mediaphormedia
     title: Web Developer

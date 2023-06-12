@@ -5,40 +5,110 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/tachyons.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" />
   <title>Chris Dickinson | Resume</title>
+
+  <style>
+    .headline:before {
+      content: ' ';
+      display: block;
+      max-width: 960px;
+      margin: 0pt auto;
+      position: relative;
+      top:0.65em;
+      z-index: -1;
+      border-top: 1px dashed rgba(0,0,0,.2);
+    }
+
+    .about-me p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+
 </head>
 {% set data = load_data(path="@/meta/resume.yaml") %}
+{% set references = load_data(path="@/meta/references.yaml", required=false) %}
 
 <body class="w-100 athelas sans-serif">
   <main class="ph3 ph5-ns">
     <article class="pb4">
       <h1 id="chris-dickinson" class="tc">Chris Dickinson</h1>
       <ul class="pa0 flex justify-center items-center">
-        <li class="dib pr2 br b--black-20 mr2"><a class="link dim dark-blue" href="mailto:chris@neversaw.us">chris@neversaw.us</a></li>
-        <li class="dib pr2 br b--black-20 mr2">1-316-250-1880</li>
-        <li class="dib pr2 br b--black-20 mr2">GitHub: <a class="link dim dark-blue" href="https://github.com/chrisdickinson">chrisdickinson</a></li>
-        <li class="dib"><a class="link dim dark-blue" href="https://www.neversaw.us/">https://www.neversaw.us/</a></li>
+        {% for item in data.contact %}
+        {% if references is iterable or item is containing("http") %}
+        <li class="dib {% if not loop.last %}pr2 br b--black-20 mr2{% endif %}">{{ item|markdown(inline=true)|replace(from="<a", to="<a class='link dim dark-blue'")|safe }}</li>
+        {% endif %}
+        {% endfor %}
       </ul>
 
+      {% set now=now()|date(format="%Y")|int %}
+      {% set experience=now - 2005 %}
 
-      <section>
-        <h1 id="experience" class="mb0 tc">Experience</h1>
+      <section class="center" style="width: 60em">
+        <div class="f4 about-me">
+          {{ data.about_me|markdown(inline=true)|replace(from="$NYEARS", to=experience|as_str)|safe }}
+        </div>
+      </section>
 
+      <h1 id="experience" class="headline mt0 mb2 tc"><span class="bg-white ph2">Experience</span></h1>
+      <section style="width: 60em; columns:2" class="center">
         {% for job in data.jobs %}
-          <h2>
-            {{ job.title }} @ <em>{{ job.company }}</em>
+        <h{% if job.description %}2{% else %}3{% endif %} class="b--black-20 bb flex items-center justify-between {% if loop.first %}mt0 first-exp-header{% endif %}">
+            <span>{{ job.title }} @ <em>{{ job.company }}</em></span>
 
-            {% if not job.description %}
-            <small>from {{ job.duration.start }} to {{ job.duration.end|default(value="present") }}</small>
-            {% endif %}
-          </h2>
+            <span class="f5">from {{ job.duration.start }} to {{ job.duration.end|default(value="present") }}</span>
+          </h{% if job.description %}2{% else %}3{% endif %}>
 
           {% if job.description %}
-            <p>from {{ job.duration.start }} to {{ job.duration.end|default(value="present") }}</p>
-            <div>{{ job.description|markdown(inline=true)|safe }}</div>
+            <div>{{ job.description|markdown(inline=true)|replace(from="<a", to="<a class='link dim dark-blue'")|safe }}</div>
+            <hr class="b--dashed b--black-20" />
           {% endif %}
         {% endfor %}
       </section>
+
+      <section class="center" style="width: 60em">
+        <h2 id="skills" class="headline mb2 tc"><span class="bg-white ph2">Technical Skills &amp; Education</span></h2>
+        <div class="f5 center"><p>{{ data.education }}</p></div>
+        {% set skill_class = "dib mr2 f6" %}
+        <ul class="pa0 dib mt0 pt0">
+          {% for skill in data.skills %}
+          {% if skill is string %}
+          <li class="{{ skill_class }}">{{ skill }}</li>
+          {% else %}
+          {% for key, subskills in skill %}
+          <li class="{{ skill_class }}">{{ key }}</li>
+          {% for skill in subskills %}
+          <li class="{{ skill_class }}">{{ skill }}</li>
+          {% endfor %}
+          {% endfor %}
+          {% endif %}
+          {% endfor %}
+        <ul>
+      </section>
+
+      <h2 id="references" class="headline mb2 tc"><span class="bg-white ph2">References</span></h2>
+      <section class="center" style="width:60em">
+        {% if references is iterable %}
+        {% for reference in references %}
+          <h3 class="flex items-center justify-between b--black-20 bb ">
+
+          <span>{{ reference.name }}</span>
+
+          <span class="f5">
+          {% set email = reference.contact.email.work|default(value = reference.contact.email.personal) %} 
+          <a href="mailto:{{ email }}" class="link dim dark-blue">{{ email }}</a>
+          {% if reference.contact.phone %}
+          {{ reference.contact.phone }}
+          {% endif %}
+          </span>
+          </h3>
+        {% endfor %}
+        {% else %}
+        <p class="f3 i tc">Available upon request.</p>
+        {% endif %}
+      </section>
+
     </article>
   </main>
 </body>
