@@ -48,6 +48,8 @@
           <hgroup>
             {% if page.extra.url.host|default(value="") == "www.youtube.com" %}
             <h4>Watching&hellip;</h4>
+            {% elif page.extra.url.host is defined and page.extra.url.host is ending_with(".bandcamp.com") %}
+            <h4>Listening&hellip;</h4>
             {% else %}
             <h4>Reading&hellip;</h4>
             {% endif %}
@@ -55,13 +57,22 @@
           </hgroup>
 
           {% if page.extra.url.host|default(value="") == "www.youtube.com" %}
+
             {% set id=page.extra.url.query.v %}
             {% set playlist=page.extra.url.query.list|default(value="") %}
+
             <iframe width="100%" height="400px" src="https://www.youtube-nocookie.com/embed/{{id}}{% if playlist %}?list={{playlist}}{% endif %}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+          {% elif page.extra.url.host is defined and page.extra.url.host is ending_with(".bandcamp.com") and "og:video" in page.extra.meta and "og:title" in page.extra.meta and "og:title" in page.extra.meta %}
+
+            <iframe style="border: 0; width: 640px; height: 120px;" src="{{ page.extra.meta["og:video"]|default(value = "") }}" seamless><a href="{{ page.extra.meta["og:url"] }}">{{ page.extra.meta["og:title"] }}</a></iframe>
+
           {% elif page.extra.image and page.extra.image is starting_with("http") %}
+
             <a href="{{ page.extra.url.url|default(value="") }}" title="{{ page.extra.title|default(value = page.title) }}">
               <img width="100%" src="{{ page.extra.image }}" alt="{{ page.extra.title|default(value = page.title) }}" />
             </a>
+
           {% endif %}
 
           <article>
