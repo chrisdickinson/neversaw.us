@@ -15,6 +15,8 @@ appeals to them. This was Java's sales pitch. WebAssembly seems to have the
 same goal. Given that Java still exists, why do we need WebAssembly? What makes
 them different?
 
+<!-- more -->
+
 I found that, in order to answer that question, I had to build some context for
 myself around the history of Java, Smalltalk, and JavaScript. Each of these
 languages presented not just a virtual machine, in the sense that we talked
@@ -22,8 +24,9 @@ about in the last post, but a virtual _platform_: a vision for computing that
 required abstracting over the specifics of many different physical machines.
 Each language was conceived under vastly different market pressures with
 different ideas about who their primary audience was & how programs might be
-distributed. When taken together, WebAssembly emerges from their stories as
-a natural next step.
+distributed. Each came to regard computing as a bridge to running their
+respective language. WebAssembly emerges from their stories by taking the
+opposite approach.
 
 ---
 
@@ -221,6 +224,15 @@ of divergence with mobile browsing.
 > to replace them.
 >
 > - Allen Wirfs-Brock, ["The Rise and Fall of Commercial Smalltalk"][the-rise-and-fall-of-commercial-smalltalk]
+
+Java would go on to become a popular language in server,
+mobile[^thanks-dalvik], and embedded contexts[^cable-set-top-boxes]. It even
+runs on cellular SIM cards[^sim-java]! However, Sun (and later, Oracle)
+licensed the language out of the running for the web platform. The problems
+Java left in its wake, `<applet>`s and NPAPI, would remain unsolved for years.
+
+If Java had remained a part of the web platform, this post might have been
+about it[^graal].
 
 ---
 
@@ -440,20 +452,42 @@ with a particularly complete standard library, nor did it ship with any
 dedicated syntax for modularity. However, it was possible to build these
 libraries _in_ JavaScript. And people did.
 
-Google emerged as a new, major player during this time period. They made money
-by serving ads ahead of search results; the faster (and safer) they could get
-relevant results in front of users, the more money they could make. Thus
-incentivized, they employed Lars Bak to translate the optimization techniques
-he perfected on the Java and Smalltalk VMs to JavaScript, creating
-V8[^v8-comic]. [Firefox][pic], [Safari][safari] and other browser vendors
-adopted these techniques.
+Microsoft lost this browser war, in fact, to Google, who emerged as a new,
+major player during this time period. They made money by serving ads ahead of
+search results; the faster (and safer) they could get relevant results in front
+of users, the more money they could make. Thus incentivized, they employed Lars
+Bak to translate the optimization techniques he perfected on the Java and
+Smalltalk VMs to JavaScript, creating the Chrome browser, powered by the V8[^v8-comic] optimizing JavaScript runtime. [Firefox][pic],
+[Safari][safari] and other browser vendors adopted these techniques. Microsoft's
+90's business model demanded killing or compartmentalizing the web, Google's demanded
+it grow the web. Chrome ended up winning the 2nd browser war in late 2012, overtaking
+[Internet Explorer, Safari, and Firefox][browser-share].
 
 The newfound ubiquity of fast JavaScript VMs led, inevitably, to a renewed
-interest in using JavaScript as a "write once, run anywhere" platform.
+interest in using JavaScript as a "write once, run anywhere" platform. Fast
+JavaScript VMs spawned a number of server-side language platforms,
+cross-platform application development tools, and operating systems. Between
+2008 and 2015 [Node.js][nodejs], [Electron][electron], React native,
+[ChromeOS][chromeos], [webOS][webos], and [Tizen][tizen][^samsung] emerged.
+Node, in particular, revitalized the web platform: JavaScript bundling tools
+began to provide pure-JavaScript browser polyfills for Node's functionality,
+and Node's module standard, [CommonJS][common], became the de facto pattern for
+modularity.
+
+But, as with Java before it, these JavaScript platform tools hit limitations.
+There was an overhead to having to write all code in JavaScript; the memory
+usage of cross-platform applications regularly ballooned to incredible size,
+browser polyfills could only do _so_ much, garbage collection pauses were still
+an issue — especially on embedded devices, bundlers produced huge payloads
+that mobile phones struggled to download and parse. And there was still no
+good way to move applications written in other languages over to the JavaScript
+platform short of rewriting them.
+
+---
 
 There were other pressures on the web through this time, however. Notably: the
 Dot Com bubble burst, Apple created a new computing market with the iPhone and
-iPad products, Google shipped the Android smartphone operating system, Oracle
+iPad products, Google shipped the Android smartphone operating system[^thanks-dalvik], Oracle
 acquired Sun Microsystems, and Microsoft found itself struggling to enter the
 new markets Apple had opened. The window Netscape left open for Java, NPAPI,
 attracted other plugins: Flash and Silverlight. Despite the functionality they
@@ -466,29 +500,32 @@ Thus, Apple [famously][thoughts-on-flash-apple] doomed Flash by denying it
 access to the iPhone platform in favor of web platform technologies. The new
 mobile web would not have plugins.
 
-JavaScript remains fast and ubiquitous today. And yet, at the turn of the '10s,
-there was still no good alternative to NPAPI plugins for desktop browsers. Like Smalltalk,
-JavaScript was still difficult to program "in the large"; like Java, running
-existing software required a language port — companies with large C++
-applications had to manually rewrite them in JavaScript. Google was
-particularly interested in solving this problem, having just launched its
-ChromeOS project, which would replace the traditional user-visible operating
-system layer with a web browser. They launched three projects: [Dart][dart][^dart], PPAPI
-(["Pepper"][pepper]), and Native Client (["NaCl"][nacl][^nacl], a pun on "Salt".) While Dart was capable
-of compiling to JavaScript as a target, it lost some language capabilities in
-the process — it was clearly intended to _replace_ JS long-term. PPAPI and
-NaCl endeavoured to harden the NPAPI plugin interface by running plugin ISA code
-in a virtual machine[^pnacl]. Competing browser vendors balked at the cost of supporting an
+JavaScript remains popular, fast, and ubiquitous today. And yet, at the turn of
+the '10s, there was still no good alternative to NPAPI plugins for desktop
+browsers. Like Smalltalk, JavaScript was still difficult to program "in the
+large"; like Java, running existing software required a language port —
+companies with large C++ applications had to manually rewrite them in
+JavaScript. Google was particularly interested in solving this problem, having
+just launched its ChromeOS project, which would replace the traditional
+user-visible operating system layer with a web browser. They launched three
+projects: [Dart][dart][^dart], PPAPI (["Pepper"][pepper]), and Native Client
+(["NaCl"][nacl][^nacl], a pun on "Salt".) While Dart was capable of compiling
+to JavaScript as a target, it lost some language capabilities in the process —
+it was clearly intended to _replace_ JS long-term. PPAPI and NaCl endeavoured
+to harden the NPAPI plugin interface by running plugin ISA code in a virtual
+machine[^pnacl]. Competing browser vendors balked at the cost of supporting an
 entirely separate virtual machine; they were at an impasse.
 
 ---
 
 ### Interlude: Virtual ISAs
 
-It's worth revisiting that 90's workstation market at this point. The market
-for custom RISC processors unexpectedly shrunk dramatically in the 2000's
-because Intel x86 processors caught up to the performance of the more expensive
-RISC designs while remaining relatively low-cost. This was completely unexpected.
+What was happening with computer hardware while all this was happening with web
+browsers? It's worth revisiting that 90's workstation market at this point. The
+market for custom RISC processors unexpectedly shrunk dramatically in the
+2000's because Intel x86 processors caught up to the performance of the more
+expensive RISC designs while remaining relatively low-cost. This was completely
+unexpected.
 
 In fact, x86 seemed to be _doomed_ at the turn of the century. Much was made of
 perceived performance boundaries of the x86 ISA; the most common prediction
@@ -545,7 +582,8 @@ hinted at in the linked papers above.) That is, [a modern x86 processor][x86]
 decodes x86 instructions into micro-operations (or **"µops"**), which allows
 for a RISC-like hardware implementation behind the scenes. Having found success
 with this approach, Intel abandoned their VLIW architecture, IA-64, in favor of
-continuing forward with x86 processors.
+continuing forward with x86 processors. The workstation market, for the most
+part, turned into consumer hardware at this point.
 
 > A primary goal in using VMs in the manner just described is to provide
 > platform independence. That is, the Java bytecodes can be used on any
@@ -665,6 +703,12 @@ effort, dropping the NaCl/Pepper/PNaCl project, and WebAssembly was born.
 Chrome dropped support for NPAPI the same year and Firefox followed suit in
 2017. The window Netscape opened, NPAPI, was finally shut.
 
+At the end of the [last post][last-post], we discussed how Ritchie and company
+extracted C's abstract machine in the process of porting UNIX from the PDP-11
+to the Interdata 8/32. They identified both where to compromise — to pull the
+useful commonalities out of both — and where to abstract. They picked their
+targets cannily. In the process, they performed a sort of magic trick.
+
 WebAssembly pulled the same magic trick C did: it extracted an existing, useful
 abstract machine definition from several concrete implementations, like finding
 David in the block of marble. Rather than requiring that browser vendors
@@ -713,16 +757,49 @@ neither of those VMs had the advantage of riding along with the browser or
 being subject to the particular performance, isolation, and security
 requirements of the web platform.
 
+Today, we're about halfway into the fictional future that Gary Bernhardt
+predicted his 2014 talk, ["The Birth and Death of
+JavaScript"][birth-and-death]. In the talk, he describes using `asm.js` as the
+foundation of a virtual instruction set computer, one that removes the overhead
+of process isolation — the boundary between operating system and userland
+process can be dissolved, improving the performance of all programs.
+
+Bernhardt calls out that there were two important qualities that led to this
+predicted outcome: JavaScript had to be **bad** and it had to be **popular**.
+To get to a viable instruction set computer, the host language platform had to
+be a _bridge_ to an install base, not the _destination_ itself. The host had to be
+**popular**, installed _everywhere_. It had to be easy for users to get
+_programs_ to those installations. It had to be a viable host for a virtual
+ISA. At the same time, the host language had to be **bad enough** that
+no one would be tempted to reverse the relation between bridge and destination.
+
+Java, Smalltalk, and _even JavaScript_ all confused the bridge for the
+destination, while LLVA proposed a bridge without a preexisting destination.
+
 ---
 
-Today, we're about halfway into the fictional future that Gary Bernhardt predicted his 2014
-talk, ["The Birth and Death of JavaScript"][birth-and-death]. In the talk, he describes
-using `asm.js` as the foundation of a virtual instruction set computer, one that removes
-the overhead of process isolation -- the boundary between operating system and userland
-process can be dissolved.
+As a web platform technology, we know WebAssembly has the install base and
+distribution network. We know no one wants to write WebAssembly by hand. But how
+does WebAssembly stack up to LLVA's design goals for a virtual ISA?
 
-And you know what? We haven't talked at _all_ about WebAssembly's operating
-system interface.
+1. ✅ **Simple, low-level operations.** Yep, WebAssembly operates in terms of functions and mathematical
+   operations on machines types and memory. 
+2. ✅ **No execution-oriented features.** The stack
+   is not visible from within the WebAssembly process runtime, no addressing modes
+   are specified, compilers are free to generate whichever calling convention
+   fits their needs.
+3. ✅ **Portability across processor designs.** WebAssembly runs anywhere
+   all of the major browsers run: at a minimum, ARM and x86 processors are supported.
+4. ✅ **High-level information to support optimization.** Loops, branches, and
+   function information is retained, allowing for function inlining, loop
+   unrolling, loop-invariant-code-motion, and other optimizations.
+5. ✅ **Language independence.** Any language that targets the C abstract machine
+   can target WebAssembly. Garbage collected languages are difficult to implement efficiently
+   on top of WASM at the moment, but better support is [coming soon][a-world-to-win].
+6. ❓ **Operating system support.** Um. Uh.
+
+You know what? We haven’t talked at _all_ about WebAssembly’s operating system
+interface. And we’re not going to, at least not in this post.
 
 > If WASM+WASI existed in 2008, we wouldn't have needed to created Docker.
 > That's how important it is. Webassembly on the server is the future of
@@ -731,8 +808,13 @@ system interface.
 >
 > - Solomon Hykes via [twitter][docker-quote]
 
-And we're not going to, at least not in this post. Next time: what is WASI? What is
-a process runtime environment? What is an ABI? Let's find out!
+Why would one of the inventors of Docker say such a thing? What is WASI? What
+is a process runtime environment? What is an ABI? Let’s find out — next time!
+
+_(Thanks to [Eric Sampson] and [C J Silverio] for reviewing drafts of this blog post.)_
+
+[Eric Sampson]: https://www.evntdrvn.com/
+[C J Silverio]: https://blog.ceejbot.com/
 
 ---
 
@@ -745,7 +827,7 @@ history that's within _living memory_ for a lot of the people involved. In that
 spirit I tried to be as meticulous as I could about gathering and linking to
 references. Invariably I've lost a few over time. (And thanks in particular to
 Ron Gee for turning up ["On Inheritance"][on-inheritance] and [a few other papers][ron-gee] from
-early 90's Microsoft -- great sleuthing!)
+early 90's Microsoft — great sleuthing!)
 
 All of these sources were instrumental in building my mental model for where
 WebAssembly fits into the story of computing (and, of course, the post above.)
@@ -799,8 +881,15 @@ out, and I encourage you to check out as much as you can of these.
 - 2006\. (est) ["The History of the Strongtalk Project"][strongtalk-history].
 - 2007\. ["A History of Erlang"][a-history-of-erlang], Joe Armstrong.
 - 2007\. ["Mark Anders Remembers Blackbird"][blackbird], Tim Anderson.
+- 2007\. ["Panasonic Takes Java To Cable TV Set-Top Box"][infoweek], Junko Yoshida.
 - 2008\. ["Introducing SquirrelFish Extreme"][safari], Maciej Stachowiak.
+- 2008\. ["Dalvik VM Internals"][dalvik], Dan Bornstein.
 - 2009\. ["Native Client: A Sandbox for Portable, Untrusted x86 Native Code"][nacl], Bennet Yee, David Sehr, Gregory Dardyk, J. Bradley Chen, Robert Muth, Tavis Ormandy, Shiki Okasaka, Neha Narula, Nicholas Fullagar.
+- 2009\. ["What Server Side JavaScript needs"][common], Kevin Dangoor.
+- 2009\. ["JSConf '09: node.js"][nodejs-preso], Ryan Dahl.
+- 2009\. ["Palm announces webOS platform"][webos-announce], Nilay Patel.
+- 2009\. ["Node.js"][nodejs], OpenJS Foundation.
+- 2009\. ["Google Chrome OS Previewed"][chromeos-announce],  Serdar Yegulalp.
 - 2010\. ["Thoughts on Flash"][thoughts-on-flash-apple], Steve Jobs.
 - 2010\. ["PICing on JavaScript for fun and profit"][pic], Chris Leary.
 - 2011\. ["Dart Language"][dart], Google.
@@ -809,6 +898,7 @@ out, and I encourage you to check out as much as you can of these.
 - 2012\. ["Explaining JavaScript VMs in JavaScript - Inline Caches"][mraleph-pic], Vyachyslav Egorov.
 - 2012\. ["LLJS: Low Level JavaScript"][lljs], James Long.
 - 2012\. ["Texas Jury Strikes Down Patent Troll's Claim to Own the Interactive Web"][texas-jury], Joe Mullin.
+- 2012\. ["Tizen"][tizen], Samsung.
 - 2013\. ["ARM vs RISC"][arm-design-priorities], Chris Siebenmann.
 - 2013\. ["Hidden Classes vs JSPerf"][mraleph-hidden-class], Vyachyslav Egorov.
 - 2013\. ["Youtube: Unreal Engine 3 in Firefox with asm.js"][unreal], Mozilla, Epic Games.
@@ -817,12 +907,17 @@ out, and I encourage you to check out as much as you can of these.
     - ["On Asm.js"][acko], Steven Wittens.
         - ["On 'On Asm.js'"][daveherman], Dave Herman.
     - ["Why Asm.js bothers me"][mraleph], Vyachyslav Egorov.
+- 2013\. (est) ["Electron.js"][electron]. ("Atom Shell", at the time.)
+- 2014\. ["Introducing Atom"][atom], GitHub.
 - 2014\. ["The Birth and Death of JavaScript"][birth-and-death], Gary Bernhardt.
+- 2015\. ["Atom Shell is now Electron"][atom-shell], Kevin Sawicki.
+- 2015\. ["JerryScript"][jerry], Samsung.
 - 2015\. ["What's up with monomorphism?"][mraleph-hidden], Vyachyslav Egorov.
 - 2015\. ["WebAssembly"][wasm-announce], Luke Wagner.
     - ["From Asm.js to WebAssembly"][eich-wasm], Brendan Eich.
 - 2015\. ["Smaller, Faster, Cheaper, Over: The Future of Computer Chips"][nyt-engelbart], John Markoff.
 - 2016\. ["JEP 295: Ahead-of-time Compilation"][graal], Vladimir Kozlov, John Rose, Mikael Vidstedt.
+- 2016\. ["Samsung's Family Hub smart fridge is ridiculous, wonderful, and slow: The essence of Samsung"][samsung-fridge], Dieter Bohn.
 - 2017\. ["The Xerox Alto, Smalltalk, and rewriting a running GUI"][ken-shirriff], Ken Shirriff.
 - 2020\. ["JavaScript: The First Twenty Years"][js-first-twenty], Allen Wirfs-Brock, Brendan Eich.
 - 2020\. ["Bits of History, Words of Advice"][bits-of-history-words-of-advice], Gilad Bracha.
@@ -835,11 +930,14 @@ out, and I encourage you to check out as much as you can of these.
     - ["RLBox Overview"][rlbox].
 - 2022\. ["The influence of Self"][the-influence-of-self], Patrick Dubroy.
 - 2021\. ["Modifiable Software Systems: Smalltalk and HyperCard"][modifiable-software-systems], Josh Justice.
+- 2021\. ["The Secret Life of SIM Cards"][java-sim], Karl Koscher, Eric Butler.
 - 2023\. ["structure and interpretation of flutter"][wingo-dart-flutter], Andy Wingo.
 - 2023\. ["C as Abstract Machine"][c-not-created-as-abstract-machine], Chris Siebenmann.
 - 2023\. ["Parsers | TLB Hit Podcast"][tlb-hit], Chris Leary, JF Bastien.
 - 2023\. ["Embrace the 'Kinda'"][dan-gohman-kinda], Dan Gohman.
 - 2023\. ["What is WASI?"][yosh-wasi], Yoshua Wuyts.
+- 2023\. ["a world to win: webassembly for the rest of us"][a-world-to-win], Andy Wingo.
+
 
 If you're still here, congratulations. Treat yourself to a 1987 interview with
 Bill Atkinson on "The Computer Chronicles".
@@ -847,7 +945,6 @@ Bill Atkinson on "The Computer Chronicles".
 <iframe src="https://archive.org/embed/CC501_hypercard" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
 
 ---
-
 
 #### Footnotes
 
@@ -939,6 +1036,29 @@ Bill Atkinson on "The Computer Chronicles".
   with Spyglass: since they were releasing Internet Explorer for free, they didn't
   _technically_ need to pay any royalties on it. Spyglass sued Microsoft, who
   settled out of court for [8MM dollars][spyglass-suit].
+
+---
+
+[^thanks-dalvik]: Thanks, initially, to the [Dalvik virtual machine][dalvik], a clean-room
+  implementation of the Java virtual machine runtime authored by [Dan Bornstein][danfuzz]
+  at Google. This VM provided the application runtime environment for Android applications.
+
+  [Oracle sued Google][oracle-google] over this, famously.
+
+---
+
+[^cable-set-top-boxes]: Java fulfilled its destiny: it [powered cable TV
+  set-top boxes][infoweek].
+
+---
+
+[^sim-java]: Java runs on SIM cards in your phone. [No, really][java-sim]!
+
+---
+
+[^graal]: Released in 2017, Java SE 9 would include [ahead-of-time compilation
+  support via GraalVM][graal]. In the same version, Java deprecated applets,
+  later removing them in Java SE 11 in 2018.
 
 ---
 
@@ -1045,6 +1165,15 @@ Bill Atkinson on "The Computer Chronicles".
 
 ---
 
+[^samsung]: [Tizen][tizen] was Samsung's html5-powered operating system, primarily
+  intended for their TVs and projectors (though it [appeared
+  elsewhere][samsung-fridge].) That's right: JavaScript made its way to the Potter's field of language platforms: cable set-top boxes.
+
+  Samsung also released a new JavaScript runtime in 2015, [JerryScript][jerry], intended for
+  the internet of things.
+
+---
+
 [^dart]: Dart is still a going concern! Andy Wingo writes an excellent history
   of Dart [here][wingo-dart]. Notably, Gilad Bracha and Lars Bak were
   involved in the development of the language!
@@ -1096,12 +1225,6 @@ Bill Atkinson on "The Computer Chronicles".
 
 [^asmjs]: The original slides for the asm.js talk are available [here][asmjs-slides];
   the website is still available [here][asmjsorg].
-
----
-
-[^graal]: Released in 2017, Java SE 9 would include [ahead-of-time compilation
-  support via GraalVM][graal]. In the same version, Java deprecated applets,
-  later removing them in Java SE 11 in 2018.
 
 ---
 
@@ -1227,4 +1350,24 @@ Bill Atkinson on "The Computer Chronicles".
 [ff-rlbox-1]: https://hacks.mozilla.org/2020/02/securing-firefox-with-webassembly/
 [ff-rlbox-2]: https://hacks.mozilla.org/2021/12/webassembly-and-back-again-fine-grained-sandboxing-in-firefox-95/
 [js-first-twenty]: https://dl.acm.org/doi/pdf/10.1145/3386327
+[tizen]: https://www.tizen.org/
+[jerry]: https://jerryscript.net/
+[a-world-to-win]: https://wingolog.org/archives/2023/03/20/a-world-to-win-webassembly-for-the-rest-of-us
+[samsung-fridge]: https://www.theverge.com/circuitbreaker/2016/5/4/11591780/samsung-family-hub-smart-fridge-hands-on-price-release-date
+[java-sim]: https://defcon.org/images/defcon-21/dc-21-presentations/Koscher-Butler/DEFCON-21-Koscher-Butler-The-Secret-Life-of-SIM-Cards-Updated.pdf
+[oracle-google]: https://en.wikipedia.org/wiki/Google_LLC_v._Oracle_America,_Inc.
 [eth-pnacl]: https://github.com/ewasm/design/blob/ea77a2a8f91da131975fa37f5ec51744e044592e/comparison.md
+[browser-share]: https://www.visualcapitalist.com/internet-browser-market-share/
+[infoweek]: https://www.informationweek.com/it-life/panasonic-takes-java-to-cable-tv-set-top-box
+[danfuzz]: https://milk.com/home/danfuzz/
+[dalvik]: https://14b1424d-a-62cb3a1a-s-sites.googlegroups.com/site/io/dalvik-vm-internals/2008-05-29-Presentation-Of-Dalvik-VM-Internals.pdf?attachauth=ANoY7crwEaJaPATBgF3cfPw87yeZGco1mGcyQJMX0OVLUYc0IC4AEeG6g_AMY5W2PfpHJ1b57HhLb2mqz855m43g13Y64MBPOVlvtmruBX1EQ9-0ZpM80a6XGkwBlDnd5_O1Twprzxv4YBLN8Ga-LGQd9pnHrt1BbIKXrS-TWuqkQDxwv6YbjcyvXVfa_IFsIQHMPW-RXm6hGwWOn8tbi6vzb4K9tmp_E2zkRmgXzLhF2oRK8f6noyjzTyMcgNQ18mldzJKHwmtGOTwr67FjDIoCEvztMUZ0fw%3D%3D&attredirects=0
+[common]: https://www.blueskyonmars.com/2009/01/29/what-server-side-javascript-needs/
+[nodejs-preso]: https://www.youtube.com/watch?v=YVvQhZbCb6c
+[nodejs]: https://nodejs.org/
+[electron]: https://www.electronjs.org/
+[atom]: https://web.archive.org/web/20140302005920/http://blog.atom.io/2014/02/26/introducing-atom.html
+[atom-shell]: https://www.electronjs.org/blog/electron
+[webos-announce]: https://www.engadget.com/2009-01-08-palm-announces-web-os-platform.html
+[webos]: https://en.wikipedia.org/wiki/WebOS
+[chromeos-announce]: https://web.archive.org/web/20091208110346/https://www.informationweek.com/news/software/operatingsystems/showArticle.jhtml?articleID=222000239
+[chromeos]: https://www.google.com/chromebook/chrome-os/
