@@ -852,9 +852,9 @@ Bill Atkinson on "The Computer Chronicles".
 
 <!--footnotes-->
 
-[^today]: Today, where a workstation may sport consumer hardware at a
+[^today]: Today, a workstation may sport consumer hardware at a
   drastically upgraded scale (think "the mac pro vs the imac", or "nvidia
-  quadro vs the RTX line")
+  quadro vs the RTX line".)
 
   Now, if you're working for IBM or Oracle, don't fret: I haven't forgotten you.
   Some of the architectures I talk about still exist, though mostly in the realm
@@ -881,7 +881,7 @@ Bill Atkinson on "The Computer Chronicles".
   by Steve Jobs at NeXT Computers due to his frustration with how the Sun
   NeWS project was being handled.
 
-  You can read Naughton's account of the project [here][naughton]. You can also
+  You can read Naughton's account of the project [here][long-strange-java]. You can also
   check out another contemporaneous account in [this comment][naughton-comment].
 
 ---
@@ -912,10 +912,12 @@ Bill Atkinson on "The Computer Chronicles".
   AT&T dropped Plan 9 in favor of their Inferno virtual machine operating
   system — patterned after Java.
 
+[<iframe frameborder="0" scrolling="no" style="border:0px" src="https://books.google.com/books?id=xT4EAAAAMBAJ&lpg=PA3&pg=PA3&output=embed" width=640 height=500></iframe>](https://books.google.com/books?id=xT4EAAAAMBAJ&pg=PA3#v=onepage&q&f=false)
+<sup>"AT&amp;T reveals plans for Java Competitor", Jason Pontin, Infoworld Feb 96</sup>
+
 ---
 
-[^unfair]: Lest you think I am being unfair to the Microsoft of the '90s, see
-  this quote from ["Mark Anders remembers Blackbird"][mark-anders-remembers]:
+[^unfair]: Lest you think I am being unfair to the Microsoft of the '90s:
 
   > [Blackbird] was a kind of Windows-specific internet, and was surfaced to some
   > extent as the MSN client in Windows 95. Although the World Wide Web was
@@ -923,7 +925,8 @@ Bill Atkinson on "The Computer Chronicles".
   > considered that its superior layout capabilities would ensure its success
   > versus HTTP-based web browsing. It was also a way to keep users hooked on
   > Windows.
-
+  >
+  > - Mark Anders, ["Mark Anders remembers Blackbird"][mark-anders-remembers]
 ---
 
 [^their]: Well, "their" browser. Internet Explorer was originally licensed from
@@ -1052,7 +1055,26 @@ Bill Atkinson on "The Computer Chronicles".
 
 ---
 
-[^pnacl]: TKTK. NaCl.
+[^pnacl]: NaCl virtualized native ISAs, but PNaCl attempted to use LLVM IR (remember that
+  from last post?) as a transfer format instead. [A quote on this from Derek Schuff][eth-pnacl], an
+  engineer at Google advising the Ethereum project on their next distributed VM:
+
+  > I'm guessing you are unfamiliar with PNaCl. This is more or less the
+  > approach taken by PNaCl; i.e. use LLVM as the starting point for a wire
+  > format. It turns out that LLVM IR/bitcode by itself is neither portable
+  > nor stable enough to be used for this purpose, and it is designed for
+  > compiler optimizations, it has a huge surface area, much more than is
+  > needed for this purpose.
+  >
+  > PNaCl solves these problems by defining a portable target triple (an
+  > architecture called "le32" used instead of e.g. i386 or arm), a subset of
+  > LLVM IR, and a stable frozen wire format based on LLVM's bitcode. So this
+  > approach (while not as simple as "use LLVM-IR directly") does work. However
+  > LLVM's IR and bitcode formats were designed (respectively) for use as a
+  > compiler IR and for temporary file serialization for link-time
+  > optimization. They were not designed for the goals we have, in particular a
+  > small compressed distribution format and fast decoding. We think we can do
+  > much better for wasm, with the experience we've gained from PNaCl.
 
 ---
 
@@ -1204,3 +1226,4 @@ Bill Atkinson on "The Computer Chronicles".
 [ff-rlbox-1]: https://hacks.mozilla.org/2020/02/securing-firefox-with-webassembly/
 [ff-rlbox-2]: https://hacks.mozilla.org/2021/12/webassembly-and-back-again-fine-grained-sandboxing-in-firefox-95/
 [js-first-twenty]: https://dl.acm.org/doi/pdf/10.1145/3386327
+[eth-pnacl]: https://github.com/ewasm/design/blob/ea77a2a8f91da131975fa37f5ec51744e044592e/comparison.md
