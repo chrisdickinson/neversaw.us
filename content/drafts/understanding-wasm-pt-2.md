@@ -132,10 +132,11 @@ prevent Microsoft from positioning Visual Basic in that space[^vbscript]. This
 language, originally called "LiveScript", "Mocha", and finally "JavaScript",
 was inspired by Scheme, Self, and Hypertalk — about which, more later.
 
-Netscape added an `<applet>` HTML tag in order to support Java and began building a plugin
-interface to support embedding other media types[^check]. The `<applet>` tag would run
-Java in-process in an embedded Java Virtual Machine implementation, while the
-plugin API would allow developers to distribute plugins for other media types
+Netscape added an `<applet>` HTML tag in order to support Java and began
+building a plugin interface to support embedding other media types[^check]. The
+`<applet>` tag would run Java in-process in an embedded Java Virtual Machine
+implementation, while the plugin API (**"Netscape Plugin API"**, or
+**"NPAPI"**) would allow developers to distribute plugins for other media types
 as shared libraries. These libraries would be compiled to their audience's
 native ISA and operating system. With these additions, the web was no longer
 static text — it was dynamic. Java caught on like wildfire.
