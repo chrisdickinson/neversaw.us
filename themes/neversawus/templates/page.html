@@ -29,20 +29,47 @@
     <main id="content">
         <nav class="wrap">
           <p>
-            {% if page.earlier %}
-              <a rel="prev" href="{{ page.earlier.permalink }}">Previous</a>
+            {% if page.higher %}
+              <a rel="prev" href="{{ page.higher.permalink }}">Previous</a>
             {% endif %}
             <aside>
               {{ page.reading_time }} minute read
               {% if page.updated %} | {{ page.updated }}{% endif %}
             </aside>
-            {% if page.later %}
-              <a rel="next" href="{{ page.later.permalink }}">Next</a>
+            {% if page.lower %}
+              <a rel="next" href="{{ page.lower.permalink }}">Next</a>
             {% endif %}
           </p>
         </nav>
         <section class="wrap">
           <article>
+
+{% if page.toc and page.extra.toc %}
+    <ul>
+    {% for h1 in page.toc %}
+        <li>
+            <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+            {% if h1.children %}
+                <ul>
+                    {% for h2 in h1.children %}
+                        <li>
+                            <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+                            <ul>
+                            {% for h3 in h2.children %}
+                                <li>
+                                    <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
             {{ page.content | safe }}
           </article>
         </section>
