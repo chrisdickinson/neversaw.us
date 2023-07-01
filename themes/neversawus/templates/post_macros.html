@@ -17,10 +17,9 @@
 
 {% macro page_in_list(page) %}
     <li>
-        <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
-
         {% if page.date %}
         <time datetime="{{ page.date | date(format="%F")}}">{{ page.date | date(format="%F")}}</time>
         {% endif %}
+        <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
     </li>
 {% endmacro page_in_list %}
