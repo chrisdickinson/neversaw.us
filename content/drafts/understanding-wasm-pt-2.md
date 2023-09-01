@@ -2,6 +2,7 @@
 title = "understanding wasm pt 2: whence wasm"
 slug = "understanding-wasm-pt-2"
 date = 2023-06-29
+
 +++
 
 # understanding wasm
@@ -227,9 +228,10 @@ of divergence with mobile browsing.
 
 Java would go on to become a popular language in server,
 mobile[^thanks-dalvik], and embedded contexts[^cable-set-top-boxes]. It even
-runs on cellular SIM cards[^sim-java]! However, Sun (and later, Oracle)
-licensed the language out of the running for the web platform. The problems
-Java left in its wake, `<applet>`s and NPAPI, would remain unsolved for years.
+runs on cellular SIM cards[^sim-java]! However, Sun (and later, Oracle) took
+the language out of the running for the web platform through protective
+licensing. The problems Java left in its wake, `<applet>`s and NPAPI, would
+remain unsolved for years.
 
 If Java had remained a part of the web platform, this post might have been
 about it[^graal].
