@@ -34,7 +34,7 @@ This quote sets up WebAssembly (and WASI) as an alternative to Docker; not only
 than that, it might be _better_ than Docker. So, uh, what gives? What is WASI?
 What is Docker? What does "the future of computing" even mean in this context?
 
----
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Contain your Enthusiasm
 
@@ -53,7 +53,7 @@ listen on the same network port[^port]. Before containerization, these two
 developers would have to sync up: who gets to listen on port 80? They'd have to
 agree, up-front, before being able to deploy their software. Worse, if they
 couldn't come to agreement about the use of resources, they'd have to involve a
-third-party -- someone from the operations department -- who might solve the
+third-party &mdash; someone from the operations department &mdash; who might solve the
 problem by introducing a _third_ server, a reverse proxy layer, to resolve
 the conflict.
 
@@ -96,10 +96,11 @@ result, there are alternative runtimes (`crio` from Redhat), frontends
 (Rancher), or combinations of the two (`podman`.)
 
 Containers rely on kernel support: on operating systems that don't support
-namespaces and cgroups, like macOS, containers are typically run in a virtual
-machine process. Windows supports containers natively through a `hcsshim`
-runtime that provides namespace and cgroup support through Window's native Host
-Compute Service. (TKTK: this might form the basis of Window's WSL2 support: double-check!)
+namespaces and cgroups containers are typically run in a virtual machine
+process. Windows supports containers natively through a `hcsshim` runtime that
+provides namespace and cgroup support through Window's native Host Compute
+Service. Apple's macOS, however, runs docker containers by spinning up a
+virtualized Linux host to run a Docker daemon and container processes.
 
 While the Docker/OCI containerization model is ubiquitous today, the
 capabilities underpinning it have a much longer history.
@@ -171,12 +172,12 @@ protection][break-chroot], thus BSD introduced the `jail` system call in 2000.
 > - ["Jails: Confining the omnipotent root."][jails], Poul-Henning Kamp, Robert N. M. Watson, 2000
 
 Jails were effective but did not address resource management or scheduling
-concerns. Sun addressed this in 2004 with Solaris's "Zones" feature, which
-provided an LXC- or Docker-like experience. However, Sun fell on hard times
-during the 2000's, eventually meeting its demise in 2010 after being acquired
-by Oracle. As a result, Solaris didn't experience the widespread adoption that
-various Linux distributions enjoyed during this time. (We'll touch on the source
-of Sun's woes a little later.)
+concerns. Sun addressed this in 2004 with Solaris's "Zones", which provided an
+LXC- or Docker-like experience. However, Sun fell on hard times during the
+2000's, eventually meeting its demise in 2010 after being acquired by Oracle.
+As a result, Solaris didn't experience the widespread adoption that various
+Linux distributions enjoyed during this time. (We'll touch on the source of
+Sun's woes a little later.)
 
 Starting in 2002, Linux began adding namespace support. The mount namespace for
 filesystems came first, inspired by Plan 9[^java-killed]. Eric W. Biederman
@@ -191,7 +192,7 @@ Global Linux Namespaces"][global-linux-namespaces]:
 - `user`: The user and group namespace.
 - `time`: The time namespace.
 
-Linux added the `user` namespace in 2013 -- the same year Docker was first
+Linux added the `user` namespace in 2013 &mdash; the same year Docker was first
 released publicly. (This was later followed up with the `cgroup` namespace in
 2016.) Namespaces and cgroups form the basis of what we think of as containers
 today[^openvz].
@@ -300,7 +301,8 @@ transfers control to the kernel, which takes action to load the
 missing page into physical memory to complete the mapping. Control transfer
 back to the process at this point[^tricks]. 
 
-TKTK illustrate paging
+[<img width="640" src="https://www.neversaw.us/img/virtual-memory-paging.png" alt="Illustration from &quot;Segmentation and the Design of Multiprogrammed Systems&quot;, Jack B. Dennis, 1965" />](https://www.neversaw.us/img/virtual-memory-paging.png)
+<sup>Illustration from ["Segmentation and the Design of Multiprogrammed Systems"][segmentation-and-the-design], Jack B. Dennis, 1965. "N" represents the process address namespace, "M" the physical namespace. Note how the contiguous "N" namespace maps to a discontiguous namespace in "M".</sup>
 
 Memory segmentation was also used to support virtual memory. Segmentation has
 the advantage of allowing larger address namespaces than the native computer
@@ -310,12 +312,13 @@ addresses 20-bit values. It accomplishes this by holding another 16-bit value
 in a "segment register", shifting it left by 4 bits (multiplying it by 16) and
 adding the resulting value to the base offset held in the operand register.
 This allows addressing up to 1MiB of memory. When the segment register changes,
-the entire segment of memory is made resident at once -- which could be a
+the entire segment of memory is made resident at once &mdash; which could be a
 single word of memory or a significant subset of physical memory. Some hardware
 supports transferring control to the kernel when the segment register changes,
 which allows the implementation of virtual memory purely through segmentation.
 
-TKTK illustrate segmentation
+[<img width="640" src="https://www.neversaw.us/img/virtual-memory-segmentation.png" alt="Illustration from &quot;Segmentation and the Design of Multiprogrammed Systems&quot;, Jack B. Dennis, 1965" />](https://www.neversaw.us/img/virtual-memory-segmentation.png)
+<sup>Illustration from ["Segmentation and the Design of Multiprogrammed Systems"][segmentation-and-the-design], Jack B. Dennis, 1965. The left diagram illustrates using a word address to index into the segment. The right diagram illustrates the namespace of segments.</sup>
 
 The variable size of segments could lead to conflict &mdash;or thrash&mdash;
 between processes if the two segments happened to overlap. Given the much
@@ -334,7 +337,7 @@ supervisory calls. System requests are implemented using interrupt instructions
 or dedicated `syscall` instructions available in the instruction set
 architecture of the processor.
 
-_(For more on all of this, check out the truly excellent [cpu.land][cpuland])_.
+_(For more on all of this, check out [cpu.land][cpuland] and [Phil Opp's "Writing an OS in Rust" series][philopp])_.
 
 Project MAC's contemporaries included Project GENIE at UC Berkeley and the IBM
 System/360 and 370. These technologies were built in competition with MULTICS;
@@ -370,6 +373,9 @@ Virtualizable Third Generation Architectures"][formal-requirements-vm].
 Even today, virtualizable architectures can be set to meet "Popek and Goldberg
 virtualization requirements"[^third-gen].
 
+[<img width="640" src="https://www.neversaw.us/img/virtual-machine-organization.png" alt="Survey of Virtual Machine Research: Robert P. Goldberg, COMPUTER magazine June 1974" />](https://www.neversaw.us/img/virtual-machine-organization.png)
+<sup>Illustration of VMM, extended machine, and interfaces from ["Survey of Virtual Machine Research"][a-survey-of-vm-research], Robert P. Goldberg, COMPUTE June 1974</sup>
+
 So why did virtual machine monitor research halt for so many years?
 
 The Mansfield amendments, passed 1969 and 1973, narrowed the scope of
@@ -379,7 +385,7 @@ used to build MULTICS at MIT cost as much as a passenger jet. MULTICS had been
 over-budget and behind schedule for years; Bell Labs pulled out of the MULTICS
 project in 1969. The aftermath of the OS research era left many useful ideas
 floating in the ether, while virtual machine monitor research would freeze
-until the late 1990s. 
+until the late 1990s[^ibm]. 
 
 <iframe src="https://archive.org/embed/byte-magazine-1984-11/page/n229/" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
 [](https://archive.org/details/byte-magazine-1984-11/page/n229/mode/2up)
@@ -392,7 +398,7 @@ the Apple Lisa in 1983, and the Macintosh in 1984. The earliest versions of
 these computers only ran a single program at a time, typically in conjunction
 with a disk operating system (**"DOS"**); later they would run many processes
 cooperatively. There was only one user and thus, no need to worry about
-time-sharing -- these systems could be written to assume cooperation between
+time-sharing &mdash; these systems could be written to assume cooperation between
 all programs running on the machine[^that-said]. In 1982, Intel released the first
 commercial chips capable of protected mode operation & on-die memory mapping in
 the form of the 80286 processor[^gates-brain-dead]. Taken together with the
@@ -424,7 +430,7 @@ game [at first][history-unix].
 >
 > - ["A hardware story"][history-odd], Dennis Ritchie, 2002 
 
-The initial system was multiprogrammed -- that is, there were two, time-shared
+The initial system was multiprogrammed &mdash; that is, there were two, time-shared
 shell processes running, one for each terminal connected to the machine. When
 the shell executed another program, it would read the file in over the top of
 the shell code and start executing it. The `exit()` syscall would reload the
@@ -604,10 +610,10 @@ density[^comparisons].
 The more efficiently tasks can be collocated, the better the margins on
 equipment; this is a competitive edge for a hosting company. Processes,
 whether virtual machines or containers, have overhead. Switching between
-processes takes time and memory; density experiments as of 202X have shown 10K
+processes takes time and memory; density experiments as of TKTK 202X have shown 10K
 containers running on a single host. This was a natural place to look for
-improvements, and so content delivery networks -- which handle some of the
-highest volume of traffic on the internet -- started digging into the problem.
+improvements, and so content delivery networks &mdash; which handle some of the
+highest volume of traffic on the internet &mdash; started digging into the problem.
 Fastly and Cloudflare both landed on web technologies, launching products
 in 2018.
 
@@ -639,7 +645,7 @@ The WebAssembly ISA allows imports and exports: functions that the host can
 pass _in_ to the WASM module for internal use, and functions that the WASM
 module can hand back to the host to be called _by_ the host on demand. The host
 may also provide a chunk of memory for the WASM module to operate on. Imported
-and exported functions may only take primitive values -- integer and floating
+and exported functions may only take primitive values &mdash; integer and floating
 point values of various widths. The host and module may cooperate to transfer
 more complicated types. For example, the host and module might agree that a string
 is represented as an integer pointer into the module's memory along with an
@@ -648,7 +654,7 @@ integer length.
 This is a _lot_ like the sort of **ABI** a process **System Interface** uses.
 
 In fact, the first preview release of WASI explicitly mimicked the POSIX system
-interface -- roughly speaking, the system interface common to all variations of
+interface &mdash; roughly speaking, the system interface common to all variations of
 UNIX systems. This differed from contemporary tools, like emscripten and
 wasm-bindgen, which treat the interface between the host and WASM module as an
 internal detail. Those tools were designed to take an existing application and
@@ -665,15 +671,15 @@ waist][thin-waist] for WebAssembly[^triple].
 ---
 
 The first preview of WASI launched in 2019. While it included many POSIX
-concepts, it omitted support for network sockets. Socket support is key to
-supporting high-performance network servers. The omission was intentional:
-system interface ABIs don't just define the boundary between a process and
-kernel. They're also used to enable software _linking_ -- the reuse of compiled
-artifacts: shared objects (`.dylib`, `.so`, or `.dll`.) Linking can be
-performed at compile time (static linking) or at process start (dynamic
-linking.) While shared object linking wasn't defined as part of the first WASI
-preview, neither did the specifiers wish to preclude it in future versions of
-the specification.
+concepts, it omitted full support for network sockets and process forking.
+These features are key to supporting high-performance network servers. The
+omission was intentional: system interface ABIs don't just define the boundary
+between a process and kernel. They're also used to enable software _linking_ --
+the reuse of compiled artifacts: shared objects (`.dylib`, `.so`, or `.dll`.)
+Linking can be performed at compile time (static linking) or at process start
+(dynamic linking.) While shared object linking wasn't defined as part of the
+first WASI preview, neither did the specifiers wish to preclude it in future
+versions of the specification.
 
 The standard approach to sockets would have exposed too much power between
 linked modules. Sockets are typically represented as a "descriptor" or "handle"
@@ -736,7 +742,7 @@ of cooperation. Processes made it possible to write programs separately,
 containers made it possible to use OS resources without up-front coordination,
 VMMs made it possible to decouple infrastructure scaling from procuring
 hardware. Each of these take a direct conversation between two components and
-move it to a third party, an interface. They form a minimal agreement -- the
+move it to a third party, an interface. They form a minimal agreement &mdash; the
 smallest contract that one must agree to in order to work seamlessly with any
 other party that also agrees.
 
@@ -750,7 +756,7 @@ perspective, it's on the cusp of a Docker moment. The technologies that
 underpin Docker predated Docker by years. Docker bundled them together and made
 it easy to share one's work with others. What does WASM's moment look like?
 
----
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Epilogue
 
@@ -759,16 +765,16 @@ on WASM materials, tools, and smooth out friction in the ecosystem wherever I
 find it.
 
 Working on these posts has been hugely educational for me on a number of
-levels, and I'd like to thank everyone who reviewed these posts -- C J Silverio
-and Eric Sampson -- helped source research -- Ron Gee, -- and encouraged me. In
-particular I'd like to thank my family: my wife, Krysten, and my parents, Mark
-and Sue, for dealing with an entire summer of me talking non-stop about writing
-these posts and reviewed the most radioactive, unfit-for-human-consumption
-drafts of these posts ("WASM good? why?")
+levels, and I'd like to thank everyone who reviewed these posts &mdash; C J
+Silverio, Eric Sampson, and Aria Stewart &mdash; helped source research &mdash; Ron Gee,
+-- and encouraged me. In particular I'd like to thank my family: my wife,
+Krysten, and my parents, Mark and Sue, for dealing with an entire summer of me
+talking non-stop about writing these posts and reviewed the most radioactive,
+unfit-for-human-consumption drafts of these posts ("WASM good? why?")
 
----
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## Bibliography
+## Bibliography and Timeline
 
 So many PDFs this time around!
 
@@ -777,7 +783,96 @@ Virtual Machines and Containers"][ideal-real] by Allison Randal, which dives
 more deeply into the history and interrelations between these technologies than
 my effort here. Give it a read!
 
-TKTK
+- 1961\. ["Dynamic Storage Allocation in the Atlas Computer"][atlas], John Fotheringham, 
+- 1961\. ["One-level storage system"][one-level], Kilburn, Edwards, Lanigan, Sumner
+- 1961\. Compatible Time-Sharing System first operational
+- 1962\. Atlas Computer operational
+- 1963\. ["A multiprocessor system design"][multiprocessor-system-design], Melvin E. Conway
+- 1964\. Compatible Time-Sharing System in operational use
+- 1964\. IBM System/360
+- 1965\. GE 645 hardware simulated at MIT for MULTICS
+- 1965\. ["Segmentation and the Design of Multiprogrammed Computer Systems"][segmentation-and-the-design] - Jack B. Dennis
+    - cites 1961 "one-level storage system"
+- 1966\. ["Programming Semantics for Multiprogrammed Computations"][programming-semantics] - Jack B. Dennis, Earl C. Van Horn
+    - cites 1963 "A multiprocessor system design"
+- 1967\. GE 645 hardware received at MIT
+- 1968\. ["Virtual Memory, Processes,and Sharing in MULTICS"][multics-virtual-memory] - Robert C. Daley, Jack B. Dennis
+- 1969\. [UNIX v1 running on a pdp-7][unix-hist]
+- 1969\. MULTICS replaces GECOS on GE 645
+- 1970\. "Virtual Memory", Peter Denning
+    - cites 1961 "one-level storage"
+    - cites 1961 "dynamic storage allocation"
+    - cites 1966 "Programming Semantics for Multiprogrammed Computations" Jack B. Dennis, Earl C. Van Horn
+- 1970\. IBM System/370 released
+- 1971\. [UNIX moved to the PDP-11][unix-1st-ed]
+- 1973\. ["Virtual machine or virtual operating system"][virtual-machine-or-virtual-operating-system], Bellino, J, C Hans
+    - this seems a LOT like paravirtualization and/or containers &mdash; could not achieve full performance
+      virtualizing an entire IBM 360 machine, so the VMM provided "higher level" primitives
+- 1974\. ["Survey of Virtual Machine Research"][a-survey-of-vm-research], Robert P. Goldberg
+    - cites bellino/hans 1973 re: "pure" vs "impure" virtual machines
+- 1979\. UNIX v7, introduction of `chroot`
+- 1979\. ["Software Engineering in 1968"][sw-in-1968] - B. Randell
+- 1981\. ["The Origin of the VM/370 Time-Sharing System"][origin-vm-370] - R. J. Creasy
+- 1982\. `chroot` added to BSD
+- 1998\. immunix apparmor introduced
+- 1998\. VMWare x86
+- 1999\. [Resource Containers][resource-containers]
+- 2000\. [FreeBSD jails][jails]
+- 2000\. SELinux first released OSS
+- 2001\. linux vserver
+- 2001\. [VMWare releases gsx][vmware-gsx], first x86 server virtualization product
+- 2002\. VMWare patent - ["Virtualization System Including a Virtual Machine Monitor For a Computer With Segmented Architecture"][vmware-patent], United States Patent #6,397,232
+- 2002\. linux namespaces (2.4.19); mount namespace
+- 2002\. linux security modules
+- 2003\. ["Xen and the Art of Virtualization"][xen]
+- 2003\. SELinux merged into linux kernel (2.6.0-test3)
+- 2003\. [Work on AWS EC2 kicks off][ben-black-ec2]
+- 2004\. [Solaris Zones][solaris-zones]
+- 2005\. [OpenVZ (open virtuzzo)](https://wiki.openvz.org/History)
+- 2005\. [intel vt-x, amd-v][gregg-nitro]
+- 2006\. Slicehost launched
+- 2006\. ["Multiple instances of the global linux namespaces"][global-linux-namespaces] - Eric W. Biederman
+- 2006\. AWS EC2 first released - built on xen virtualization
+- 2007\. ["Adding Generic Process Containers to the Linux Kernel"][process-containers] - Paul B. Menage, Google
+- 2007\. cgroups lands in linux kernel (2.6.24); final form of google process containers
+- 2007\. KVM lands in the linux kernel (forked QEMU added KVM support)
+- 2008\. LXC released
+- 2008\. Microsoft launches Hyper-V for windows server
+- 2009\. AWS VPC launch, ELB, Autoscaling, Cloudwatch
+- 2009\. Netflix moves movie encoding to the cloud
+- 2009\. Canonical adopts apparmor
+- 2010\. Netflix moves account signup, etc to the cloud
+- 2010\. Hyper-V support [merged into libvirt][libvirt-hyper-v]
+    - > In 2010, Bolte et al. incorporated support for Hyper-V into
+      libvirt, so it could be managed through a standardized interface,
+      together with Xen, QEMU+KVM, and VMware ESX.
+- 2011\. Netflix's entire operation is on the cloud
+- 2012\. [KVM support merged into mainline QEMU][qemu-kvm]
+- 2013\. user namespaces land in the linux kernel (3.8); this completes support for containers [1]
+- 2013\. Docker released (based on LXC)
+- 2013\. LMCTFY ("Let me contain that for you")
+- 2014\. Kubernetes released
+- 2014\. Docker Swarm released
+- 2014\. docker-compose v1
+- 2014\. Docker replaces LXC with `libcontainer`
+- 2014\. Canonical begins work on `lxd`, orchestration for LXC containers
+- 2015\. Terraform released
+- 2015\. Consul released
+- 2015\. Hashicorp releases first version of vault, nomad
+- 2015\. Docker spins `runc` out of its container runtime
+- 2016\. dirty cow container CVE (https://blog.paranoidsoftware.com/dirty-cow-cve-2016-5195-docker-container-escape/)
+- 2016\. CRI-O launched
+- 2016\. docker-compose v2
+- 2016\. LXD released
+- 2017\. docker-compose v3
+- 2018\. Kata, gVisor, Nabla
+- 2019\. CRI-O handed over to cncf
+- 2019\. Docker Swarm start of 2-year EOL
+- 2020\. ["The Ideal Versus the Real: Revisiting the History of Virtual Machines and Containers"][ideal-real] - Allison Randal
+
+[atlas]: https://www.andrew.cmu.edu/course/15-440/assets/READINGS/fotheringham1961.pdf
+[one-level]: https://www.dcs.gla.ac.uk/~wpc/grcs/kilburn.pdf
+[qemu-kvm]: https://lists.gnu.org/archive/html/qemu-devel/2012-12/msg00123.html
 
 ---
 
@@ -802,12 +897,12 @@ TKTK
 ---
 
 [^bsd]: It's out of scope for this post, but suffice it to say that UNIX
-    split in the 80's and 90's: roughly, Linux and BSD. Linux provides
+    split in the 80's and 90's: roughly, Linux, BSD, and SysV. Linux provides
     the kernel of popular distributions like Redhat, CentOS, Ubuntu, Debian,
     and Android. BSD provides a specification for a kernel for operating
-    systems: most conspicuously, Apple's modern operating systems and Sun's
-    Solaris and SunOS. TKTK: when Ken Thompson taught at Berkeley he seeded
-    his UNIX code there and it grew into BSD.
+    systems: most conspicuously, Apple's modern operating systems and SunOS.
+    SunOS's successor, Solaris, was based on AT&T's UNIX System V, along with
+    HP's HP-UX and IBM's AIX.
 
 ---
 
@@ -865,12 +960,21 @@ TKTK
 ---
 
 [^tricks]:  There are are all sorts of neat tricks that paging enables, including "copy on
-    write" pages -- mapping the same memory to different places in the same
+    write" pages &mdash; mapping the same memory to different places in the same
     address space, and only creating copies of them when they're mutated.
 
 ---
 
-[^third-gen]: TKTK explain "third generation architecture".
+[^third-gen]: "Third Generation Architecture" refers to the generation of
+    computers designed in the 1960's using early integrated circuits; these are
+    typically called "minicomputers". They were succeeded by fourth generation
+    architecture in the early 1970's which began to use microprocessors.
+
+---
+
+[^ibm]: IBM continued to ship virtual machine monitor systems throughout this
+    period. However, they were primarily focused on virtualizing earlier
+    technologies, like mainframes and minicomputers, on top of newer hardware.
 
 ---
 
@@ -921,7 +1025,14 @@ TKTK
 
 ---
 
-[^meltdown-spectre]: TKTK
+[^meltdown-spectre]: This is notwithstanding the [Meltdown and Spectre][meltdown-spectre] vulnerabilities.
+    Meltdown exploits a race condition between memory access and privilege checking and affects operating
+    systems and hypervisors. Exploits allow processes and VMs to read memory across security boundaries,
+    effectively breaking the illusion of virtual memory. Spectre exploits speculative execution &mdash;
+    a property of modern superscalar processors. Speculative execution executes every code path leading
+    out from a branch point, throwing away the results from the paths not taken. However, this speculative
+    execution can affect caches, so the path not taken may be observed by measuring operation timings after
+    the fact.
 
 ---
 
@@ -944,8 +1055,22 @@ TKTK
 
 [^ba-wasix]: The Bytecode Alliance has taken a [dim view][infoworld-wasix] of WASIX.
 
----
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+[process-containers]: https://www.kernel.org/doc/ols/2007/ols2007v2-pages-45-58.pdf
+[aws-ec2-virtualization-2017-introducing-nitro]: https://www.brendangregg.com/blog/2017-11-29/aws-ec2-virtualization-2017.html
+[sw-in-1968]: https://dl.acm.org/doi/pdf/10.5555/800091.802915
+[libvirt-hyper-v]: https://past.date-conference.com/proceedings-archive/2010/DATE10/PDFFILES/05.6_3.PDF
+[vmware-gsx]: https://web.archive.org/web/20060827064533/http://www.vmware.com/news/releases/gsx_win_release.html
+[resource-containers]: https://www.usenix.org/legacy/publications/library/proceedings/osdi99/full_papers/banga/banga.pdf
+[origin-vm-370]: https://pages.cs.wisc.edu/~stjones/proj/vm_reading/ibmrd2505M.pdf
+[virtual-machine-or-virtual-operating-system]: https://dl.acm.org/doi/pdf/10.1145/800122.803946
+[unix-hist]: https://www.bell-labs.com/usr/dmr/www/hist.html
+[unix-1st-ed]: https://www.bell-labs.com/usr/dmr/www/1stEdman.html
+[programming-semantics]: https://dl.acm.org/doi/10.1145/365230.365252
+[multiprocessor-system-design]: https://dl.acm.org/doi/10.1145/1463822.1463838
+[segmentation-and-the-design]: https://dl.acm.org/doi/pdf/10.1145/321296.321310
 [a-fresh-look]: https://dl.acm.org/doi/pdf/10.1145/3464298.3493404
 [berferd]: https://www.cheswick.com/ches/papers/berferd.pdf
 [unix-history]: https://www.bell-labs.com/usr/dmr/www/hist.html
@@ -974,3 +1099,5 @@ TKTK
 [part-1]: @/20230510-understanding-wasm-pt-1.md
 [part-2]: @/20230630-understanding-wasm-pt-2.md
 [llva]: https://llvm.org/pubs/2003-10-01-LLVA.pdf
+[meltdown-spectre]: https://meltdownattack.com/
+[philopp]: https://os.phil-opp.com/paging-introduction/
