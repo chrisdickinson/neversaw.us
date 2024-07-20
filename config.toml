@@ -14,7 +14,7 @@ feed_filenames = ["rss.xml"]
 
 taxonomies = [{ name = "tags", feed = true }]
 
-generate_feed = true
+generate_feeds = true
 
 [slugify]
 paths = "off"
