@@ -28,6 +28,8 @@ about_me: |
 
 skills:
   - Rust
+  - Wasm
+    - WASI Components
   - JavaScript:
     - TypeScript
     - Node
@@ -67,6 +69,18 @@ skills:
     - Django
 
 jobs:
+  - company: Dylibso
+    title: Principal Engineer
+    duration:
+      start: Sep 2023
+      end: Present
+    description: |
+      Maintained cross-language, cross-runtime Wasm tools, including host SDKs and plugin development
+      kits for Dylibso's Wasm framework, [Extism]. Designed and implemented access patterns for a plug-in
+      SaaS platform. Led product feature definition and planning efforts. Started the WASI-observe proposal.
+
+      [Extism]: https://extism.org/
+
   - company: Seaplane, Inc
     title: Engineer
     duration:
@@ -140,8 +154,8 @@ jobs:
       the website, and the package publication flow. I assisted in infrastructure work,
       provisioning servers using Terraform and AWS and building deploy tooling in
       Node and Ansible. I participated in on-call rotation using Pagerduty and was
-      relied upon to fix operational problems when both on- and off-call and was the primary
-      responsible individual for multiple high-profile on-call incidents.
+      relied upon to fix operational problems when both on- and off-call and was a primary
+      incident responder for multiple high-impact on-call incidents.
 
   - company: Walmart Labs
     title: Node.js Technical Steering Committee
@@ -190,3 +204,9 @@ jobs:
     duration:
       start: '2008'
       end: '2009'
+
+  - company: University of Kansas, KJHK
+    title: IT Director
+    duration:
+      start: '2006'
+      end: '2007'
