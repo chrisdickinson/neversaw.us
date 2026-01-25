@@ -2,3 +2,4 @@ bin/zola
 output.zip
 public
 content/meta/references.yaml
+content/

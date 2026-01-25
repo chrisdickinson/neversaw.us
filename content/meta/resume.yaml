@@ -75,11 +75,33 @@ jobs:
       start: Sep 2023
       end: Present
     description: |
-      Maintained cross-language, cross-runtime Wasm tools, including host SDKs and plugin development
+      Maintained cross-language, cross-runtime Wasm tooling, including host SDKs and plugin development
       kits for Dylibso's Wasm framework, [Extism]. Designed and implemented access patterns for a plug-in
       SaaS platform. Led product feature definition and planning efforts. Started the WASI-observe proposal.
 
+      Delivered high-level architecture and implementation of a Model-Context-Protocol (MCP) registry
+      platform, [mcp.run], allowing organizations to mash up multiple upstream MCP servers
+      while enforcing access control. Built an agentic, stepwise runner.
+
       [Extism]: https://extism.org/
+      [mcp.run]: https://www.mcp.run/
+
+  - company: Self-employed
+    title: Writer
+    duration:
+      start: Apr 2023
+      end: Sep 2023
+    description: |
+      Got excited about WebAssembly and went on a deep dive into the history behind it.
+
+      Wrote three-part series of essays available [here][pt1], [here][pt2], and [here][pt3].
+
+      Gave [a presentation][presentation] covering the series at Wasm.io 2024.
+
+      [pt1]: https://www.neversaw.us/2023/05/10/understanding-wasm/part1/virtualization/
+      [pt2]: https://www.neversaw.us/2023/06/30/understanding-wasm/part2/whence-wasm/
+      [pt3]: https://www.neversaw.us/2023/09/04/understanding-wasm/part3/you-are-here/
+      [presentation]: https://www.youtube.com/watch?v=M2SozFIL4o0
 
   - company: Seaplane, Inc
     title: Engineer
@@ -107,29 +129,24 @@ jobs:
       start: Apr 2018
       end: May 2022
     description: |
-      Replaced the deployment system at Eaze. This cut monthly infrastructure cost in
-      half, took the average service deploy time down from one hour to two minutes, improved morale across
-      teams by reducing contention on shared environments, and allowed us to scale
-      the department by decoupling teams from one another.
+      Replaced the deployment system at Eaze. This cut monthly infrastructure
+      cost in half, took the average service deploy time down from one hour to
+      two minutes, improved morale across teams by reducing contention on
+      shared environments, and allowed us to scale the department by decoupling
+      teams from one another. See ["Deploying at Eaze"][1] for more.
 
-      I endeavoured to ensure that, beyond being a technical improvement, the system
-      would be adopted by engineering successfully: I validated the new deployment systems across
-      teams, making sure to incorporate their feedback so that they could see
-      their values reflected in the tool. Further, I made sure all engineers
-      felt ownership over the tool by working with them to make changes to it.
-      See ["Deploying at Eaze"][1] for more.
-
-      Additionally, I built platform tools to ensure a base level of
+      Built platform tools to ensure a base level of
       capabilities across our services, ensuring all teams had access to quality
-      monitoring, logging, and observability. As teams began adopting TypeScript, I
-      ported JavaScript internal tools for their use. 
+      monitoring, logging, and observability. 
 
-      Finally, I worked to give the team porting our monolithic C# application
-      tools to validate their changes. This involved coordinating a 30 person
+      Designed and coordinated efforts on validation tools for the team porting
+      our monolithic C# application to modern .NET. This involved a 30 person
       team in the construction of a series of high level integration tests
       across multiple areas of software engineering (mobile eng, website
       engineering, & backend engineering.) I gave a [well-received][2]
       presentation on the results to Honeycomb.
+
+      <br />
 
       [1]: https://www.neversaw.us/2020/12/19/deploying-at-eaze/
       [2]: https://www.neversaw.us/presentations/20220426-to-honeycomb.pdf
