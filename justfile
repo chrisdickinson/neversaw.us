@@ -8,14 +8,14 @@ set positional-arguments
 # Setup dependencies. Run automatically by other recipes.
 _setup:
 	#!/bin/bash
-	set -eou pipefail
+	set -eoux pipefail
 	mkdir -p bin
 	arch=$(uname -m | sed -e 's/arm64/aarch64/g')
 	plat=$(uname | tr '[:upper:]' '[:lower:]')
 	if ! &>/dev/null which zola; then
 		url=$(curl -s https://api.github.com/repos/getzola/zola/releases/latest | jq -r '.assets[].browser_download_url' | grep $plat | grep $arch)
 		echo -e '\x1b[33mDownloading zola from \x1b[33;4m'$url'\x1b[0m...'
-		curl -sL $url | tar xz -C ./bin
+		curl -sL ${url[0]} | tar xz -C ./bin
 		chmod +x bin/zola
 		bin/zola --version
 	fi
