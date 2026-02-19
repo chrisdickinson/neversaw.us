@@ -16,8 +16,12 @@ jobs:
         with:
           path: |
             bin/zola
-            blog
           key: bin/zola
+      - uses: actions/cache@v4
+        with:
+          path: |
+            blog
+          key: blog
       - uses: extractions/setup-just@v3
       - name: setup
         run: |
