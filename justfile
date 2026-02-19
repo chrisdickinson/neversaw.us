@@ -7,28 +7,33 @@ set positional-arguments
 [linux]
 _setup_likelike:
 	#!/bin/bash
+	set -eou pipefail
 	if ! &>/dev/null which likelike; then
 		gh release download --repo chrisdickinson/likelike -p '*x64_linux*'
 		<likelike*.tar.gz tar zxv -C ./bin
+		rm likelike*.tar.gz
 		mkdir -p ~/.local/share/likelike
 	fi
 
 [macos]
 _setup_likelike:
 	#!/bin/bash
+	set -eou pipefail
 	if ! &>/dev/null which likelike; then
 		gh release download --repo chrisdickinson/likelike -p '*macos*'
 		<likelike*.tar.gz tar zxv -C ./bin
+		rm likelike*.tar.gz
 		mkdir -p ~/.local/share/likelike
 	fi
 
 # Setup dependencies. Run automatically by other recipes.
 _setup: _setup_likelike
 	#!/bin/bash
+	set -eou pipefail
 	mkdir -p bin
-	uname | tr '[:upper:]' '[:lower:]'
 	if ! &>/dev/null which zola; then
-		url=$(curl -s https://api.github.com/repos/getzola/zola/releases/latest | jq -r '.assets[].browser_download_url' | grep $(uname | tr '[:upper:]' '[:lower:]'))
+		arch=$(uname -m | sed -e 's/arm64/aarch64/g')
+		url=$(curl -s https://api.github.com/repos/getzola/zola/releases/latest | jq -r '.assets[].browser_download_url' | grep $(uname | tr '[:upper:]' '[:lower:]') | grep $arch)
 		echo -e '\x1b[33mDownloading zola from \x1b[33;4m'$url'\x1b[0m...'
 		curl -sL $url | tar xz -C ./bin
 		chmod +x bin/zola
