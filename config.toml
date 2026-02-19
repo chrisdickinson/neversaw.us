@@ -24,7 +24,7 @@ paths = "off"
 # Put all your custom variables here
 
 [markdown]
-bottom_footnotes = true
+bottom_footnotes = false
 github_alerts = true
 smart_punctuation = true
 definition_list = true
