@@ -26,7 +26,7 @@ _setup_likelike:
 _setup: _setup_likelike
 	#!/bin/bash
 	mkdir -p bin
-	ls -alh
+	uname | tr '[:upper:]' '[:lower:]'
 	if ! &>/dev/null which zola; then
 		url=$(curl -s https://api.github.com/repos/getzola/zola/releases/latest | jq -r '.assets[].browser_download_url' | grep $(uname | tr '[:upper:]' '[:lower:]'))
 		echo -e '\x1b[33mDownloading zola from \x1b[33;4m'$url'\x1b[0m...'
