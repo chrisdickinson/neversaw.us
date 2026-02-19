@@ -15,6 +15,8 @@ feed_filenames = ["rss.xml"]
 taxonomies = [{ name = "tags", feed = true }]
 
 generate_feeds = true
+bottom_footnotes = true
+github_alerts = true
 
 [slugify]
 paths = "off"
@@ -22,8 +24,6 @@ paths = "off"
 [extra]
 # Put all your custom variables here
 
-[markdown]
-# Whether to do syntax highlighting
-# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
-highlight_code = true
-highlight_theme = "base16-ocean-dark"
+[markdown.highlighting]
+# TODO: move from inline to classes.
+theme = "base16-ocean-dark"
