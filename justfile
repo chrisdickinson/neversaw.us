@@ -4,8 +4,26 @@ set positional-arguments
 @_help:
 	just --list
 
+[linux]
+_setup_likelike:
+	#!/bin/bash
+	if ! &>/dev/null which likelike; then
+		gh release download --repo chrisdickinson/likelike -p '*x64_linux*'
+		<likelike*.tar.gz tar zxv -C bin
+		mkdir -p ~/.local/share/likelike
+	fi
+
+[macos]
+_setup_likelike:
+	#!/bin/bash
+	if ! &>/dev/null which likelike; then
+		gh release download --repo chrisdickinson/likelike -p '*macos*'
+		<likelike*.tar.gz tar zxv -C bin
+		mkdir -p ~/.local/share/likelike
+	fi
+
 # Setup dependencies. Run automatically by other recipes.
-_setup:
+_setup: _setup_likelike
 	#!/bin/bash
 	if ! &>/dev/null which zola; then
 		url=$(curl -s https://api.github.com/repos/getzola/zola/releases/latest | jq -r '.assets[].browser_download_url' | grep $(uname | tr '[:upper:]' '[:lower:]'))
