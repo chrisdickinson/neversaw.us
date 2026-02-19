@@ -14,9 +14,8 @@ feed_filenames = ["rss.xml"]
 
 taxonomies = [{ name = "tags", feed = true }]
 
+
 generate_feeds = true
-bottom_footnotes = true
-github_alerts = true
 
 [slugify]
 paths = "off"
@@ -24,6 +23,12 @@ paths = "off"
 [extra]
 # Put all your custom variables here
 
+[markdown]
+bottom_footnotes = true
+github_alerts = true
+smart_punctuation = true
+definition_list = true
+
 [markdown.highlighting]
 # TODO: move from inline to classes.
-theme = "base16-ocean-dark"
+theme = "everforest-dark"
