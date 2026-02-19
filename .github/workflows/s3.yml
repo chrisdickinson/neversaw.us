@@ -1,4 +1,4 @@
-name: "Receive dropbox events"
+name: "Receive events"
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -8,7 +8,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 jobs:
-  receive_dropbox_event:
+  receive_event:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,6 +16,7 @@ jobs:
         with:
           path: |
             bin/zola
+            blog
           key: bin/zola
       - name: download zola
         run: |
@@ -29,19 +30,23 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: download dropbox blog
+      - name: download blog
         run: |
-          bin/download_folder.sh ${{ secrets.DROPBOX_KEY }}
+          aws s3 sync s3://ibetthey-neversawus/blog ./blog
           mv blog/likelike.sqlite3 ~/.local/share/likelike/db.sqlite3 || true
           mv blog/static/* static
           mv blog/* content
+        env:
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_DEFAULT_REGION: us-west-2
 
       - name: run likelike export
         run: |
           mkdir -p content/links
           likelike export content/links
 
-      - name: 'build the blog, BE THE BLOG'
+      - name: "build the blog, BE THE BLOG"
         run: |
           bin/zola build --output-dir output
 

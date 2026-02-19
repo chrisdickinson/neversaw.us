@@ -1,0 +1,23 @@
+:root {
+  // Forest green palette
+  --bg-primary: #0f1a14;
+  --bg-secondary: #1a2e23;
+  --bg-code: #0a1210;
+
+  // Text
+  --text-primary: #f5f0e8;
+  --text-muted: rgba(245, 240, 232, 0.6);
+
+  // Accents
+  --accent-link: #d4a574;
+  --accent-secondary: #a389b0;
+  --accent-tertiary: #5a8a6f;
+
+  // Typography
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-size-base: calc(11rem/7);
+  --line-height: calc(1.27272727 * 1.272727272727);
+  --content-width: 777px;
+  --breakout: 1.5em;
+}

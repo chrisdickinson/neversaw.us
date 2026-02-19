@@ -27,11 +27,10 @@
       {% endblock extra_head %}
     </head>
 
-    <body id="" class="hack dark main container">
+    <body>
         <header>
-          <h1 id="logo"><a href="/" rel="top">NeverSawUs</a></h1>
+          <a href="/" class="logo">neversaw.us</a>
         </header>
-        <div id="target"></div>
 
         {% block content %}
             {% block header %}
@@ -73,15 +72,9 @@
         {% endblock content %}
 
         <footer>
-            <div>
-                <h4><a href="/">NEVERSAW.US</a> is Chris Dickinson’s personal blog</h4>
-                <p>
-                  <a href="/rss.xml" rel="rss">RSS</a>
-                  <a href="https://hachyderm.io/@isntitvacant" rel="me">@isntitvacant@hachyderm.io</a>
-                  <a href="https://twitter.com/isntitvacant" rel="twitter">@isntitvacant</a>
-                  <a href="https://github.com/chrisdickinson" rel="github">github.com/chrisdickinson</a>
-                </p>
-            </div>
+          <a href="https://hachyderm.io/@isntitvacant" rel="me">Mastodon</a>
+          <a href="https://github.com/chrisdickinson">GitHub</a>
+          <a href="/rss.xml">RSS</a>
         </footer>
     </body>
 

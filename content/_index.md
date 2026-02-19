@@ -1,4 +1,4 @@
 +++
-paginate_by = 20
+template = "hub.html"
 sort_by = "date"
 +++

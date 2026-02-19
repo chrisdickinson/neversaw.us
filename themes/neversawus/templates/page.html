@@ -23,56 +23,52 @@
 {% endblock %}
 
 {% block content %}
-    {% block header %}
-        {{ super() }}
-    {% endblock header %}
-    <main id="content">
-        <nav class="wrap">
-          <p>
-            {% if page.higher %}
-              <a rel="prev" href="{{ page.higher.permalink }}">Previous</a>
-            {% endif %}
-            <aside>
-              {{ page.reading_time }} minute read
-              {% if page.updated %} | {{ page.updated }}{% endif %}
-            </aside>
-            {% if page.lower %}
-              <a rel="next" href="{{ page.lower.permalink }}">Next</a>
-            {% endif %}
-          </p>
-        </nav>
-        <section class="wrap">
-          <article>
+<main>
+  <article>
+    <header>
+      <h1>{{ page.title }}</h1>
+      <div class="meta">
+        {% if page.date %}<time>{{ page.date | date(format="%b %d, %Y") }}</time>{% endif %}
+        {% if page.reading_time %}<span>{{ page.reading_time }} min read</span>{% endif %}
+      </div>
+    </header>
 
-{% if page.toc and page.extra.toc %}
-    <ul>
-    {% for h1 in page.toc %}
+    {% if page.toc and page.extra.toc %}
+    <nav class="toc">
+      <h2>Contents</h2>
+      <ul>
+      {% for h1 in page.toc %}
         <li>
-            <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
-            {% if h1.children %}
-                <ul>
-                    {% for h2 in h1.children %}
-                        <li>
-                            <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
-                            <ul>
-                            {% for h3 in h2.children %}
-                                <li>
-                                    <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
-                                </li>
-                            {% endfor %}
-                            </ul>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+          <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+          {% if h1.children %}
+          <ul>
+            {% for h2 in h1.children %}
+            <li><a href="{{ h2.permalink | safe }}">{{ h2.title }}</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
         </li>
-    {% endfor %}
-    </ul>
-{% endif %}
+      {% endfor %}
+      </ul>
+    </nav>
+    {% endif %}
 
-            {{ page.content | safe }}
-          </article>
-        </section>
-    </main>
+    <div class="content">
+      {{ page.content | safe }}
+    </div>
+
+    <nav class="page-nav">
+      <span>
+        {% if page.higher %}
+        <a href="{{ page.higher.permalink }}">&larr; {{ page.higher.title }}</a>
+        {% endif %}
+      </span>
+      <span>
+        {% if page.lower %}
+        <a href="{{ page.lower.permalink }}">{{ page.lower.title }} &rarr;</a>
+        {% endif %}
+      </span>
+    </nav>
+  </article>
+</main>
 {% endblock content %}
-

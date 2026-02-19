@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+
+{% block title %}Blog | {{ config.title }}{% endblock title %}
+
+{% block content %}
+<main>
+  <h1>Blog</h1>
+
+  {% set posts = get_section(path="_index.md") %}
+
+  {% set_global current_year = 0 %}
+  <ul class="post-list">
+    {% for page in posts.pages %}
+      {% set page_year = page.date | date(format="%Y") | int %}
+      {% if page_year != current_year %}
+        {% set_global current_year = page_year %}
+        <li class="year-header">{{ current_year }}</li>
+      {% endif %}
+      <li>
+        <h2><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h2>
+        <time datetime="{{ page.date | date(format='%F') }}">{{ page.date | date(format="%B %d") }}</time>
+      </li>
+    {% endfor %}
+  </ul>
+</main>
+{% endblock content %}

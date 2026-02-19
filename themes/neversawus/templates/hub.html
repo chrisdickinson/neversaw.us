@@ -1,0 +1,79 @@
+{% extends "index.html" %}
+
+{% block content %}
+<main>
+  {% set posts = get_section(path="_index.md") %}
+  {% set links = get_section(path="links/_index.md") %}
+  {% set words = get_section(path="words/_index.md", required=false) %}
+
+  <section class="hero">
+    <img src="/img/profile-2026.jpeg" alt="Chris Dickinson" class="hero-photo" id="hero-photo">
+    <div class="hero-text">
+      <p>Hi, I'm <strong>Chris Dickinson</strong>. I'm a software engineer based in Portland, Oregon. I write about programming, systems, and the web.</p>
+      <button id="revert-btn" class="git-btn">git reset --hard HEAD~1</button>
+    </div>
+  </section>
+  <script>
+    (function() {
+      const photos = [
+        '/img/profile-2026.jpeg',
+        '/img/profile-2022.jpeg',
+        '/img/profile-2018.jpeg',
+        '/img/profile-2015.jpeg',
+        '/img/profile-2014.jpeg',
+        '/img/profile-2008.jpeg',
+        '/img/profile-2001.jpeg'
+      ];
+      let idx = 0;
+      document.getElementById('revert-btn').onclick = function() {
+        idx = (idx + 1) % photos.length;
+        document.getElementById('hero-photo').src = photos[idx];
+      };
+    })();
+  </script>
+
+  <section class="hub-section">
+    <h2>Recent Writing</h2>
+    <ul class="post-list">
+      {% for page in posts.pages | slice(end=5) %}
+      <li>
+        <h3><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
+        <time datetime="{{ page.date | date(format='%F') }}">{{ page.date | date(format="%B %d, %Y") }}</time>
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="view-all"><a href="/blog/">View all posts &rarr;</a></p>
+  </section>
+
+  {% if words and words.pages | length > 0 %}
+  <section class="hub-section">
+    <h2>Recent Words</h2>
+    <ul class="post-list">
+      {% for page in words.pages | slice(end=5) %}
+      <li>
+        <h3><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
+        <time datetime="{{ page.date | date(format='%F') }}">{{ page.date | date(format="%b %d") }}</time>
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="view-all"><a href="/words/">View all words &rarr;</a></p>
+  </section>
+  {% endif %}
+
+  <section class="hub-section">
+    <h2>Recent Links</h2>
+    <ul class="post-list">
+      {% for page in links.pages | slice(end=8) %}
+      <li>
+        <h3><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
+        <span class="meta-col">
+          <time>{{ page.date | date(format="%b %d") }}</time>
+          {% if page.extra.url.host %}<span class="host">{{ page.extra.url.host }}</span>{% endif %}
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="view-all"><a href="/links/">View all links &rarr;</a></p>
+  </section>
+</main>
+{% endblock content %}

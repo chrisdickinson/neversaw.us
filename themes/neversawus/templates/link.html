@@ -1,5 +1,4 @@
 {% extends "index.html" %}
-{% import "post_macros.html" as post_macros %}
 
 {% block title %}{% if page.title %}{{ page.title }} - {% endif %}{{ super() }}{% endblock %}
 
@@ -23,71 +22,65 @@
 {% endblock %}
 
 {% block content %}
-    {% block header %}
-        {{ super() }}
-    {% endblock header %}
-    <main id="content">
-        <nav class="wrap">
-          <p>
-            <a rel="prev" href="/links">Links</a>
-            <aside>
-              {% if page.extra.read_at %} | Read at {{ page.extra.read_at }}{% endif %}
-              {% if page.extra.found_at %} | Found at {{ page.extra.found_at }}{% endif %}
-
-              {% if page.extra.via %}
-                {% if page.extra.via.type == "Link" %}
-                  | <a href="{{ page.extra.via.content }}">Via.</a>
-                {% elif page.extra.via.type == "Friend" %}
-                  | Via {{ page.extra.via.content }}.
-                {% endif %}
-              {% endif %}
-            </aside>
-          </p>
-        </nav>
-        <section class="wrap">
-          <hgroup>
-            {% if page.extra.url.host|default(value="") == "www.youtube.com" %}
-            <h4>Watching&hellip;</h4>
-            {% elif page.extra.url.host is defined and page.extra.url.host is ending_with(".bandcamp.com") %}
-            <h4>Listening&hellip;</h4>
-            {% else %}
-            <h4>Reading&hellip;</h4>
-            {% endif %}
-            <h1><a href="{{ page.extra.url.url|default(value="") }}" title="{{ page.extra.title|default(value = page.title) }}">{{ page.extra.title|default(value = page.title) }}</a></h1>
-          </hgroup>
-
-          {% if page.extra.url.host|default(value="") == "www.youtube.com" %}
-
-            {% set id=page.extra.url.query.v %}
-            {% set playlist=page.extra.url.query.list|default(value="") %}
-
-            <iframe width="100%" height="400px" src="https://www.youtube-nocookie.com/embed/{{id}}{% if playlist %}?list={{playlist}}{% endif %}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-
-          {% elif page.extra.url.host is defined and page.extra.url.host is ending_with(".bandcamp.com") and "og:video" in page.extra.meta and "og:title" in page.extra.meta and "og:title" in page.extra.meta %}
-
-            <iframe style="border: 0; width: 640px; height: 120px;" src="{{ page.extra.meta["og:video"]|default(value = "") }}" seamless><a href="{{ page.extra.meta["og:url"] }}">{{ page.extra.meta["og:title"] }}</a></iframe>
-
-          {% elif page.extra.image and page.extra.image is starting_with("http") %}
-
-            <a href="{{ page.extra.url.url|default(value="") }}" title="{{ page.extra.title|default(value = page.title) }}">
-              <img width="100%" src="{{ page.extra.image }}" alt="{{ page.extra.title|default(value = page.title) }}" />
-            </a>
-
+<main>
+  <article class="link-post">
+    <header>
+      <p class="link-type">
+        {% if page.extra.url.host|default(value="") == "www.youtube.com" %}
+        Watching
+        {% elif page.extra.url.host is defined and page.extra.url.host is ending_with(".bandcamp.com") %}
+        Listening
+        {% else %}
+        Reading
+        {% endif %}
+      </p>
+      <h1><a href="{{ page.extra.url.url|default(value="") }}">{{ page.extra.title|default(value=page.title) }}</a></h1>
+      <div class="meta">
+        {% if page.date %}<time>{{ page.date | date(format="%b %d, %Y") }}</time>{% endif %}
+        {% if page.extra.url.host %}<span>{{ page.extra.url.host }}</span>{% endif %}
+        {% if page.extra.via %}
+          {% if page.extra.via.type == "Link" %}
+          <a href="{{ page.extra.via.content }}">via</a>
+          {% elif page.extra.via.type == "Friend" %}
+          <span>via {{ page.extra.via.content }}</span>
           {% endif %}
+        {% endif %}
+      </div>
+    </header>
 
-          <article>
-            {{ page.content | safe }}
-          </article>
+    {% if page.extra.url.host|default(value="") == "www.youtube.com" %}
+      {% set id = page.extra.url.query.v %}
+      {% set playlist = page.extra.url.query.list|default(value="") %}
+      <div class="embed-container">
+        <iframe src="https://www.youtube-nocookie.com/embed/{{ id }}{% if playlist %}?list={{ playlist }}{% endif %}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
+    {% elif page.extra.url.host is defined and page.extra.url.host is ending_with(".bandcamp.com") and "og:video" in page.extra.meta and "og:title" in page.extra.meta %}
+      <iframe class="bandcamp-embed" src="{{ page.extra.meta["og:video"]|default(value="") }}" seamless>
+        <a href="{{ page.extra.meta["og:url"] }}">{{ page.extra.meta["og:title"] }}</a>
+      </iframe>
+    {% elif page.extra.image and page.extra.image is starting_with("http") %}
+      <a href="{{ page.extra.url.url|default(value="") }}" class="link-image">
+        <img src="{{ page.extra.image }}" alt="{{ page.extra.title|default(value=page.title) }}" />
+      </a>
+    {% endif %}
 
-          <small class="tags">
-            <strong>Tags:</strong>
-            {% for tag in page.taxonomies.tags|default(value=[]) %}
-            {% if tag %}
-            <a href="/tags/{{ tag | slugify }}" title="tag: {{ tag }}">#{{ tag }}</a>
-            {% endif %}
-            {% endfor %}
-          </small>
-        </section>
-    </main>
+    <div class="content">
+      {{ page.content | safe }}
+    </div>
+
+    {% if page.taxonomies.tags|default(value=[]) | length > 0 %}
+    <footer class="tags">
+      {% for tag in page.taxonomies.tags %}
+      {% if tag %}
+      <a href="/tags/{{ tag | slugify }}">#{{ tag }}</a>
+      {% endif %}
+      {% endfor %}
+    </footer>
+    {% endif %}
+
+    <nav class="page-nav">
+      <a href="/links/">&larr; All Links</a>
+    </nav>
+  </article>
+</main>
 {% endblock content %}
-
