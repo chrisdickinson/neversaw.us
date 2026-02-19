@@ -12,22 +12,24 @@
   {% set_global current_year = 0 %}
   <ul class="post-list">
     {% for page in section.pages %}
-      {% set page_year = page.date | date(format="%Y") | int %}
-      {% if page_year != current_year %}
-        {% set_global current_year = page_year %}
-        <li class="year-header">{{ current_year }}</li>
-      {% endif %}
-      <li>
-        <h2><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h2>
-        {% if page.extra.url.host %}
-        <span class="meta-col">
-          <time>{{ page.date | date(format="%b %d") }}</time>
-          <span class="host">{{ page.extra.url.host }}</span>
-        </span>
-        {% elif page.date %}
-        <time datetime="{{ page.date | date(format='%F') }}">{{ page.date | date(format="%b %d") }}</time>
+      {% if page.date %}
+        {% set page_year = page.date | date(format="%Y") | int %}
+        {% if page_year != current_year %}
+          {% set_global current_year = page_year %}
+          <li class="year-header">{{ current_year }}</li>
         {% endif %}
-      </li>
+        <li>
+          <h2><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h2>
+          {% if page.extra.url.host %}
+          <span class="meta-col">
+            <time>{{ page.date | date(format="%b %d") }}</time>
+            <span class="host">{{ page.extra.url.host }}</span>
+          </span>
+          {% elif page.date %}
+          <time datetime="{{ page.date | date(format='%F') }}">{{ page.date | date(format="%b %d") }}</time>
+          {% endif %}
+        </li>
+      {% endif %}
     {% endfor %}
   </ul>
   {% endif %}

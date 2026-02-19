@@ -38,7 +38,9 @@
       {% for page in posts.pages | slice(end=5) %}
       <li>
         <h3><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
-        <time datetime="{{ page.date | date(format='%F') }}">{{ page.date | date(format="%B %d, %Y") }}</time>
+        {% if page.date %}
+          <time datetime="{{ page.date | date(format='%F') }}">{{ page.date | date(format="%B %d, %Y") }}</time>
+        {% endif %}
       </li>
       {% endfor %}
     </ul>
@@ -52,7 +54,9 @@
       {% for page in words.pages | slice(end=5) %}
       <li>
         <h3><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
-        <time datetime="{{ page.date | date(format='%F') }}">{{ page.date | date(format="%b %d") }}</time>
+        {% if page.date %}
+          <time datetime="{{ page.date | date(format='%F') }}">{{ page.date | date(format="%b %d") }}</time>
+        {% endif %}
       </li>
       {% endfor %}
     </ul>
@@ -67,7 +71,9 @@
       <li>
         <h3><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
         <span class="meta-col">
-          <time>{{ page.date | date(format="%b %d") }}</time>
+          {% if page.date %}
+            <time>{{ page.date | date(format="%b %d") }}</time>
+          {% endif %}
           {% if page.extra.url.host %}<span class="host">{{ page.extra.url.host }}</span>{% endif %}
         </span>
       </li>
