@@ -1,0 +1,30 @@
+{
+  "name": "neversaw.us",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tailwind.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisdickinson/neversaw.us.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/chrisdickinson/neversaw.us/issues"
+  },
+  "homepage": "https://github.com/chrisdickinson/neversaw.us#readme",
+  "private": true,
+  "dependencies": {
+    "js-yaml": "^4.1.1",
+    "playwright": "^1.52.0",
+    "smol-toml": "^1.6.0"
+  }
+}
